@@ -1,0 +1,9 @@
+<p>Dear {{ user.username }},</p>
+<p>Welcome to the <b>U.S. Nuclear Regulatory Commission's Event Reporting</b> application!</p>
+<p>You must confirm your account to be able to submit event reports.</p>
+<p>Please, <a href="{{ url_for('auth.confirm', token=token, _external=True) }}">click here</a> to confirm your account.</p>
+<p>Alternatively, you can copy and paste the following url in your browser's address bar:</p>
+<p>{{ url_for('auth.confirm', token=token, _external=True) }}</p>
+<p>Sincerely,</p>
+<p>The US NRC Events Reporting Team</p>
+<p><small>Note: Please do not reply to this email. Replies to this email are not monitored.</small></p>

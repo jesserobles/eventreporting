@@ -1,0 +1,11 @@
+Dear {{ user.username }},
+
+To confirm your new email address click on the following link:
+
+{{ url_for('auth.change_email', token=token, _external=True) }}
+
+Sincerely,
+
+The US NRC Events Reporting Team
+
+Note: Please do not reply to this email. Replies to this email are not monitored.

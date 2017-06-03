@@ -1,0 +1,123 @@
+05000313,Arkansas Nuclear One Unit 1,PWR
+05000368,Arkansas Nuclear One Unit 2,PWR
+05000334,Beaver Valley Power Station Unit 1,PWR
+05000412,Beaver Valley Power Station Unit 2,PWR
+05000155,Big Rock Point,BWR
+05000457,Braidwood Station Unit 1,PWR
+05000456,Braidwood Station Unit 1,PWR
+05000259,Browns Ferry Nuclear Plant Unit 1,BWR
+05000260,Browns Ferry Nuclear Plant Unit 2,BWR
+05000296,Browns Ferry Nuclear Plant Unit 3,BWR
+05000325,Brunswick Steam Electric Plant Unit 1,BWR
+05000324,Brunswick Steam Electric Plant Unit 2,BWR
+05000455,Byron Station Unit 2,PWR
+05000454,Byron Station Unit 1,PWR
+05000483,Callaway Unit 1,PWR
+05000317,Calvert Cliffs Nuclear Power Plant Unit 1,PWR
+05000318,Calvert Cliffs Nuclear Power Plant Unit 2,PWR
+05000413,Catawba Nuclear Station Unit 1,PWR
+05000414,Catawba Nuclear Station Unit 2,PWR
+05000461,Clinton Power Station Unit 1,BWR
+05000397,Columbia Generating Station,BWR
+05000445,Comanche Peak Station Unit 1,PWR
+05000446,Comanche Peak Station Unit 2,PWR
+05000315,Donald C. Cook Nuclear Plant Unit 1,PWR
+05000316,Donald C. Cook Nuclear Plant Unit 2,PWR
+05000298,Cooper Nuclear Station,BWR
+05000302,Crystal River Unit 3,PWR
+05000346,Davis-Besse Nuclear Power Station Unit 1,PWR
+05000275,Diablo Canyon Power Plant Unit 1,PWR
+05000323,Diablo Canyon Power Plant Unit 2,PWR
+05000010,Dresden Nuclear Power Station Unit 1,BWR
+05000237,Dresden Nuclear Power Station Unit 2,BWR
+05000249,Dresden Nuclear Power Station Unit 3,BWR
+05000331,Duane Arnold Energy Center,BWR
+05000348,Joseph M. Farley Nuclear Plant Unit 1,PWR
+05000364,Joseph M. Farley Nuclear Plant Unit 2,PWR
+05000016,Fermi 1,SCF
+05000341,Fermi 2,BWR
+05000333,James A. FitzPatrick Nuclear Power Plant,BWR
+05000285,Fort Calhoun Station,PWR
+05000267,Fort St. Vrain Station,HTG
+05000244,R. E. Ginna Nuclear Power Plant,PWR
+05000416,Grand Gulf Nuclear Station Unit 1,BWR
+05000213,Haddam Neck,PWR
+05000400,Shearon Harris Nuclear Power Plant Unit 1,PWR
+05000321,Edwin I. Hatch Nuclear Plant Unit 1,BWR
+05000366,Edwin I. Hatch Nuclear Plant Unit 2,BWR
+05000354,Hope Creek Generating Station,BWR
+05000133,Humboldt Bay Power Plant Unit 3,BWR
+05000003,Indian Point 1,PWR
+05000247,Indian Point 2,PWR
+05000286,Indian Point 3,PWR
+05000305,Kewaunee Power Station,PWR
+05000409,La Crosse,BWR
+05000373,LaSalle County Station Unit 1,BWR
+05000374,LaSalle County Station Unit 2,BWR
+05000352,Limerick Generating Station Unit 1,BWR
+05000353,Limerick Generating Station Unit 2,BWR
+05000309,Maine Yankee Atomic Power Company,PWR
+05000369,McGuire Nuclear Station Unit 1,PWR
+05000370,McGuire Nuclear Station Unit 2,PWR
+05000245,Millstone Power Station Unit 1,BWR
+05000336,Millstone Power Station Unit 2,PWR
+05000423,Millstone Power Station Unit 3,PWR
+05000263,Monticello Nuclear Generating Plant,BWR
+05000220,Nine Mile Point Nuclear Station Unit 1,BWR
+05000410,Nine Mile Point Nuclear Station Unit 2,BWR
+05000338,North Anna Power Station Unit 1,PWR
+05000339,North Anna Power Station Unit 2,PWR
+05000269,Oconee Nuclear Station Unit 1,PWR
+05000270,Oconee Nuclear Station Unit 2,PWR
+05000287,Oconee Nuclear Station Unit 3,PWR
+05000219,Oyster Creek Nuclear Generating Station Unit 1,BWR
+05000255,Palisades Nuclear Plant,PWR
+05000528,Palo Verde Nuclear Generating Station Unit 1,PWR
+05000529,Palo Verde Nuclear Generating Station Unit 2,PWR
+05000530,Palo Verde Nuclear Generating Station Unit 3,PWR
+05000277,Peach Bottom Atomic Power Station Unit 2,BWR
+05000278,Peach Bottom Atomic Power Station Unit 3,BWR
+05000440,Perry Nuclear Power Plant,BWR
+05000293,Pilgrim Nuclear Power Station,BWR
+05000266,Point Beach Nuclear Plant Unit 1,PWR
+05000301,Point Beach Nuclear Plant Unit 2,PWR
+05000282,Prairie Island Nuclear Generating Plant Unit 1,PWR
+05000306,Prairie Island Nuclear Generating Plant Unit 2,PWR
+05000254,Quad Cities Nuclear Power Station Unit 1,BWR
+05000265,Quad Cities Nuclear Power Station Unit 2,BWR
+05000312,Rancho Seco Nuclear Station,PWR
+05000458,River Bend Station Unit 1,BWR
+05000261,H.B. Robinson Steam Electric Plant Unit 2,PWR
+05000272,Salem Nuclear Generating Station Unit 1,PWR
+05000311,Salem Nuclear Generating Station Unit 2,PWR
+05000206,San Onofre Nuclear Generating Station Unit 1,PWR
+05000361,San Onofre Nuclear Generating Station Unit 2,PWR
+05000362,San Onofre Nuclear Generating Station Unit 3,PWR
+05000443,Seabrook Station,PWR
+05000327,Sequoyah Nuclear Plant Unit 1,PWR
+05000328,Sequoyah Nuclear Plant Unit 2,PWR
+05000322,Shoreham Nuclear Power Station,BWR
+05000498,South Texas Project Unit 1,PWR
+05000499,South Texas Project Unit 2,PWR
+05000335,St. Lucie Unit 1,PWR
+05000389,St. Lucie Unit 2,PWR
+05000395,Virgil C. Summer Nuclear Station Unit 1,PWR
+05000280,Surry Power Station Unit 1,PWR
+05000281,Surry Power Station Unit 2,PWR
+05000387,Susquehanna Steam Electric Station Unit 1,BWR
+05000388,Susquehanna Steam Electric Station Unit 2,BWR
+05000289,Three Mile Island Nuclear Station Unit 1,PWR
+05000320,Three Mile Island Nuclear Station Unit 2,PWR
+05000344,Trojan Nuclear Plant,PWR
+05000250,Turkey Point Unit 3,PWR
+05000251,Turkey Point Unit 4,PWR
+05000271,Vermont Yankee Nuclear Power Station,BWR
+05000424,Vogtle Electric Generating Plant Unit 1,PWR
+05000425,Vogtle Electric Generating Plant Unit 2,PWR
+05000382,Waterford 3 Steam Electric Station,PWR
+05000390,Watts Bar Nuclear Plant Unit 1,PWR
+05000391,Watts Bar Nuclear Plant Unit 2,PWR
+05000482,Wolf Creek Generating Station,PWR
+05000029,Yankee-Rowe Nuclear Power Station,PWR
+05000295,Zion Nuclear Power Station Unit 1,PWR
+05000304,Zion Nuclear Power Station Unit 2,PWR

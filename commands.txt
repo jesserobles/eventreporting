@@ -1,0 +1,1 @@
+db.create_all();Role.insert_roles();CFR.insert_cfrs();Facility.insert_facilities();System.insert_systems();EIISComponentType.insert_eiiscomponenttypes();ComponentCause.insert_componentcauses();

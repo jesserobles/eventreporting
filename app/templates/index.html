@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% set active_page = "home" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}NRC Events Reporting{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+  <h1>Welcome,
+    {% if current_user.is_authenticated %}
+      {% if current_user.first_name %}
+        {{ current_user.first_name }}!
+      {% else %}
+        {{ current_user.username }}
+      {% endif %}
+    {% else %}
+      Stranger!
+    {% endif %}</h1>
+</div>
+{{ wtf.quick_form(form) }}
+{% endblock %}
+

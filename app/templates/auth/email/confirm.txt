@@ -1,0 +1,15 @@
+Dear {{ user.username }},
+
+Welcome to the U.S. Nuclear Regulatory Commission's Event Reporting application!
+
+You must confirm your account to be able to submit event reports.
+
+Please, click on the following link:
+
+{{ url_for('auth.confirm', token=token, _external=True) }}
+
+Sincerely,
+
+The US NRC Events Reporting Team
+
+Note: Please do not reply to this email. Replies to this email are not monitored.

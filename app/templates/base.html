@@ -1,0 +1,81 @@
+{% extends "bootstrap/base.html" %}
+{% block head %}
+{{ super() }}
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.ico') }}" type="image/x-icon">
+    <link rel="icon" href="{{ url_for('static', filename='img/favicon.ico') }}" type="image/x-icon">
+{% endblock %}
+{% block title %}NRC Events Reporting{% endblock %}
+{% block navbar %}
+
+{% set navigation_bar = [
+    (url_for('main.index'), 'home', 'Home'),
+    (url_for('main.ler_list'), 'ler-list', 'LER List'),
+    (url_for('main.create_ler'), 'create-ler', 'Create LER')
+] -%}
+
+{% set tab_links = [
+    (url_for('main.user', username=current_user.username), 'profile', 'My Profile'),
+    (url_for('auth.change_password'), 'change-password', 'Change Password'),
+    (url_for('auth.change_email_request'), 'change-email', 'Change Email'),
+    (url_for('auth.logout'), 'logout', 'Log Out')
+
+] -%}
+
+<nav class="navbar navbar-default navbar-static-top" role="navigation">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle"
+      data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle Navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">NRC - EVENTS REPORTING</a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+          {% for href, id, caption in navigation_bar if current_user.is_authenticated%}
+            <li{% if id == active_page %} class="active"{% endif %}><a href="{{ href|e }}">{{ caption|e }}</a></li>
+          {% endfor %}
+          {% if not current_user.is_authenticated %}
+          <li {% if active_page == 'home'%} class="active"{% endif %}><a href="{{ url_for('main.index') }}">Home</a></li>
+          {% endif %}
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        {% if current_user.is_authenticated %}
+        <li class="dropdown{% if active_page == 'profile' %} active{% else %}{% endif %}">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Account <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+                {% for href, id, caption in tab_links %}
+                <li{% if id == active_link %} class="active"{% endif %}><a href="{{ href|e }}">{{ caption|e }}</a></li>
+                {% endfor %}
+            </ul>
+        </li>
+        {% else %}
+        <li{% if active_page == 'profile' %} class="active"{% else %}{% endif %}><a href="{{ url_for('auth.login') }}">Log In</a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  {% for message in get_flashed_messages() %}
+  <div class="alert alert-warning">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    {{ message }}
+  </div>
+  {% endfor %}
+  {% block page_content %}{% endblock %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+{{ moment.include_moment() }}
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}NRC Event Reporting - Confirm Your Account{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    <h1>
+        Hello, {{ current_user.username }}!
+    </h1>
+    <h3>You have not confirmed your account yet.</h3>
+    <p>
+        You must confirm your account to access this site.
+        Check your email inbox for your confirmation link.
+    </p>
+    <p>
+        Need us to resend a confirmation link email?
+        <a href="{{ url_for('auth.resend_confirmation') }}">Click here</a>
+    </p>
+</div>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% set active_page = "create-ler" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}NRC Events Reporting - Create LER{% endblock %}
+{% block page_content %}
+<div class="page-header">
+    <h1>Create New LER</h1>
+ </div>
+<div>
+    {% if current_user.can(Permission.WRITE) %}
+    {{ wtf.quick_form(form) }}
+    {% endif %}
+</div>
+{% endblock %}
