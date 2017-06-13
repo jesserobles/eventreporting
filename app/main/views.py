@@ -108,6 +108,8 @@ def create_ler():
                   operating_mode=form.operating_mode.data,
                   power_level=form.power_level.data,
                   cfrs=cfrs,
+                  supplement_expected=form.supplement_expected.data,
+                  supplement_date=form.supplement_date.data,
                   abstract=form.abstract.data,
                   body=form.body.data,
                   author=current_user._get_current_object())
@@ -160,6 +162,8 @@ def edit_ler(lernum):
         ler.cfrs = [CFR.query.filter_by(id=cfr).first() for cfr in form.cfrs.data]
         ler.abstract = form.abstract.data
         ler.body = form.body.data
+        ler.supplement_expected = form.supplement_expected.data
+        ler.supplement_date = form.supplement_date.data
         ler.components.delete()
         for component in form.components:
             if component.system.data == -1 or component.component_type.data == -1 or component.cause.data == -1:
@@ -191,6 +195,9 @@ def edit_ler(lernum):
     form.operating_mode.data = ler.operating_mode
     form.power_level.data = ler.power_level
     form.cfrs.data = [cfr.id for cfr in ler.cfrs]
+    form.supplement_expected.data = ler.supplement_expected
+    if ler.supplement_date:
+        form.supplement_date.data = ler.supplement_date
     if ler.components.all():
         has_components = True
         for component in ler.components:

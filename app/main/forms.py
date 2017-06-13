@@ -2,7 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, TextAreaField, SubmitField, BooleanField, SelectField, ValidationError, \
     SelectMultipleField, DateField, IntegerField, widgets, FormField, Form
 from flask_pagedown.fields import PageDownField
-from wtforms.validators import DataRequired, Length, Email, Regexp, NumberRange, InputRequired
+from wtforms.validators import DataRequired, Length, Email, Regexp, NumberRange, InputRequired, Optional
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
 from wtforms_alchemy import ModelFieldList, ModelForm
 from ..models import Role, User, Facility, CFR, System, EIISComponentType, Component, ComponentCause, Manufacturer
@@ -83,8 +83,8 @@ class AddComponentForm(ModelForm):
 class LERForm(FlaskForm):
     facilities = SelectMultipleField("Select Facilities", coerce=int, validators=[DataRequired()],
                                      render_kw={'data-placeholder':"Select affected facilities..."})
-    title = StringField('Title', validators=[Length(0, 64), DataRequired()],
-                        render_kw={"placeholder": "Up to 64 characters"})
+    title = StringField('Title', validators=[Length(0, 200), DataRequired()],
+                        render_kw={"placeholder": "Up to 200 characters"})
     event_date = DateField('Event Date', validators=[DataRequired()], format="%m/%d/%Y",
                            render_kw={"placeholder": "mm/dd/yyyy"})
     operating_mode = SelectField('Operating Mode', validators=[DataRequired()])
@@ -96,6 +96,10 @@ class LERForm(FlaskForm):
                                coerce=int, validators=[DataRequired()],
                                render_kw={'data-placeholder': "Select all that apply..."})
     components = ModelFieldList(FormField(AddComponentForm), min_entries=1)
+    supplement_expected = BooleanField("Supplemental Report Expected")
+    supplement_date = DateField("Expected Supplement Submission Date", format="%m/%d/%Y",
+                                validators=[Optional()],
+                                render_kw={"placeholder": "mm/dd/yyyy"})
     abstract = TextAreaField("Abstract", validators=[DataRequired()])
     body = PageDownField("LER Text", validators=[DataRequired()])
     submit = SubmitField('Create LER')

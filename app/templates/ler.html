@@ -47,6 +47,10 @@
             {%  endfor %}
         </tbody>
     </table>
+    <h4>Supplement Expected: <b>{% if ler.supplement_expected %}YES{% else %}NO{% endif %}</b></h4>
+    {% if ler.supplement_expected %}
+    <h4>Supplement Expected Submission Date: {{ moment(ler.supplement_date, 'YYYY-MM-DD').format('L') }}</h4>
+    {% endif %}
     <h4>Abstract: </h4>
     <p>{{ ler.abstract }}</p>
     <h4>Text: </h4>

@@ -73,6 +73,12 @@
                 </tbody>
             </table>
         </div>
+        <div class="form-group">
+            {{ form.supplement_expected.label(class='control-label') }}
+            {{ form.supplement_expected }}
+            {{ form.supplement_date.label(class='control-label') }}
+            {{ form.supplement_date(class='pull-right') }}
+        </div>
         <div class="form-group required">
             {{ form.abstract.label(class_='control-label') }}
             {{ form.abstract(class='form-control', required=True) }}
