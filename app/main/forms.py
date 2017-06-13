@@ -1,18 +1,16 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, TextAreaField, SubmitField, BooleanField, SelectField, ValidationError, \
-    SelectMultipleField, DateField, IntegerField, widgets
-from wtforms.validators import DataRequired, Length, Email, Regexp
-from ..models import Role, User, Facility, CFR, System, EIISComponentType
+    SelectMultipleField, DateField, IntegerField, widgets, FormField, Form
+from flask_pagedown.fields import PageDownField
+from wtforms.validators import DataRequired, Length, Email, Regexp, NumberRange, InputRequired
+from wtforms.ext.sqlalchemy.fields import QuerySelectField
+from wtforms_alchemy import ModelFieldList, ModelForm
+from ..models import Role, User, Facility, CFR, System, EIISComponentType, Component, ComponentCause, Manufacturer
 
 
 class MultiCheckboxField(SelectMultipleField):
     widget = widgets.ListWidget(prefix_label=False)
     option_widget = widgets.CheckboxInput()
-
-
-class NameForm(FlaskForm):
-    name = StringField('LER Title', validators=[DataRequired()])
-    submit = SubmitField('Submit')
 
 
 class EditProfileForm(FlaskForm):
@@ -38,7 +36,7 @@ class EditProfileAdminForm(FlaskForm):
     submit = SubmitField('Submit')
 
     def __init__(self, user, *args, **kwargs):
-        super(EditProfileAdminForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.role.choices = [(role.id, role.name) for role in Role.query.order_by(Role.name).all()]
         self.user = user
 
@@ -51,37 +49,61 @@ class EditProfileAdminForm(FlaskForm):
             raise ValidationError('Username already in use.')
 
 
+def get_cfrs():
+    return CFR.query.all()
+
+
+class CFRSelectForm(FlaskForm):
+    cfr = QuerySelectField(query_factory=get_cfrs)
+
+
+class AddComponentForm(ModelForm):
+    system = SelectField("System", coerce=int)
+    component_type = SelectField("Component Type", coerce=int)
+    manufacturer = SelectField("Manufacturer", coerce=int)#StringField("Manufacturer")
+    cause = SelectField("Failure Cause", coerce=int)
+    reportable_ices = BooleanField("Reportable to ICES")
+    inpo_device_id = StringField("INPO Device ID")
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.system.choices = [(system.id, '{} ({})'.format(system.name, system.eiis_code))
+                               for system in System.query.order_by(System.name).all()]
+        self.system.choices.insert(0, (-1,''))
+        self.component_type.choices = [(componenttype.id, '{} ({})'.format(componenttype.name, componenttype.eiis_code))
+                                       for componenttype in
+                                       EIISComponentType.query.order_by(EIISComponentType.name).all()]
+        self.component_type.choices.insert(0, (-1, ''))
+        self.manufacturer.choices = [(man.id, man.name) for man in Manufacturer.query.order_by(Manufacturer.name).all()]
+        self.manufacturer.choices.insert(0, (-1, ''))
+        self.cause.choices = [(cause.id, cause.cause_name) for cause in ComponentCause.query.all()]
+        self.cause.choices.insert(0, (-1, ''))
+
+
 class LERForm(FlaskForm):
-    docket = SelectField("Docket Number", coerce=int)
-    title = StringField('Title', validators=[Length(0, 64), DataRequired()])
-    event_date = DateField('Event Date', validators=[DataRequired()])
-    ler_number = StringField('LER Number', validators=[DataRequired()])
-    operating_mode = SelectField('Operating Mode', coerce=int)
-    power_level = IntegerField('Power Level')
-    cfr = SelectField("Report Submitted Pursuant to Requirements of 10 CFR: (Select all that apply)", #MultiCheckboxField
-                              coerce=int)
+    facilities = SelectMultipleField("Select Facilities", coerce=int, validators=[DataRequired()],
+                                     render_kw={'data-placeholder':"Select affected facilities..."})
+    title = StringField('Title', validators=[Length(0, 64), DataRequired()],
+                        render_kw={"placeholder": "Up to 64 characters"})
+    event_date = DateField('Event Date', validators=[DataRequired()], format="%m/%d/%Y",
+                           render_kw={"placeholder": "mm/dd/yyyy"})
+    operating_mode = SelectField('Operating Mode', validators=[DataRequired()])
+    power_level = IntegerField('Power Level', render_kw={"placeholder": "e.g., 100"}, validators=[InputRequired(),
+                                                                                                  NumberRange(min=0,
+                                                                                                              max=100,
+                                                                                                              )])
+    cfrs = SelectMultipleField("Report Submitted Pursuant to Requirements of 10 CFR: (Select all that apply)",
+                               coerce=int, validators=[DataRequired()],
+                               render_kw={'data-placeholder': "Select all that apply..."})
+    components = ModelFieldList(FormField(AddComponentForm), min_entries=1)
     abstract = TextAreaField("Abstract", validators=[DataRequired()])
-    body = TextAreaField("LER Text", validators=[DataRequired()])
-    submit = SubmitField('Submit')
+    body = PageDownField("LER Text", validators=[DataRequired()])
+    submit = SubmitField('Create LER')
 
     def __init__(self, *args, **kwargs):
-        super(LERForm, self).__init__(*args, **kwargs)
-        self.docket.choices = [(docket.id, '{} - {}'.format(docket.docket, docket.facility_name))
-                               for docket in Facility.query.order_by(Facility.facility_name).all()]
-        self.cfr.choices = [(cfr.id, cfr.cfr) for cfr in CFR.query.order_by(CFR.cfr).all()]
-        self.operating_mode.choices = [(0, 'N/A'), (1, '1'), (2, '2'), (3, '3'), (4, '4'), (5, '5')]
-
-
-class AddComponentForm(FlaskForm):
-    facility = SelectField("Facility", coerce=int, validators=[DataRequired()])
-    system = SelectField("System", coerce=int, validators=[DataRequired()])
-    component_type = SelectField("Component Type", coerce=int, validators=[DataRequired()])
-    manufacturer = StringField("Manufacturer")
-
-    def __init__(self, *args, **kwargs):
-        super(AddComponentForm, self).__init__(*args, **kwargs)
-        self.facility.choices = [(docket.id, '{} - {}'.format(docket.docket, docket.facility_name))
-                                 for docket in Facility.query.order_by(Facility.facility_name).all()]
-        self.system.choices = [(system.id, system.name) for system in System.query.order_by(System.name).all()]
-        self.component_type.choices = [(component.id, component.name)
-                                       for component in EIISComponent.query.order_by(EIISComponent.name).all()]
+        super().__init__(*args, **kwargs)
+        self.facilities.choices = [(docket.id, '{} - {}'.format(docket.docket, docket.facility_name))
+                                   for docket in Facility.query.order_by(Facility.facility_name).all()
+                                   if docket.docket.startswith('050')]
+        self.cfrs.choices = [(cfr.id, cfr.cfr) for cfr in CFR.query.order_by(CFR.cfr).all()]
+        self.operating_mode.choices = [('N/A', 'N/A'), ('1', '1'), ('2', '2'), ('3', '3'), ('4', '4'), ('5', '5')]

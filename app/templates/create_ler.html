@@ -1,14 +1,97 @@
 {% extends "base.html" %}
 {% set active_page = "create-ler" %}
 {% import "bootstrap/wtf.html" as wtf %}
+{% import "bootstrap/utils.html" as utils%}
 {% block title %}NRC Events Reporting - Create LER{% endblock %}
+{% block head %}
+{{ super() }}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.7.0/chosen.min.css">
+<!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.7.0/chosen.min.css.map">-->
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+{% endblock %}
 {% block page_content %}
 <div class="page-header">
     <h1>Create New LER</h1>
  </div>
 <div>
     {% if current_user.can(Permission.WRITE) %}
-    {{ wtf.quick_form(form) }}
+    <form action method="post" class="form" role="form">
+        {{ form.csrf_token }}
+        <div class="form-group required">
+            {{ form.facilities.label(class_='control-label') }}
+            {{ form.facilities(class_='form-control multiple-select') }}
+        </div>
+        <div class="form-group required">
+            {{ form.title.label(class_='control-label') }}
+            {{ form.title(class='form-control', required=True) }}
+        </div>
+        <div class="form-group required">
+            {{ form.event_date.label(class_='control-label') }}
+            {{ form.event_date(class='form-control', required=True) }}
+        </div>
+        <div class="form-group required">
+            {{ form.operating_mode.label(class_='control-label') }}
+            {{ form.operating_mode(class='form-control', required=True) }}
+        </div>
+        <div class="form-group required">
+            {{ form.power_level.label(class_='control-label') }}
+            {{ form.power_level(class='form-control', required=True) }}
+        </div>
+        <div class="form-group required">
+            {{ form.cfrs.label(class_='control-label') }}
+            {{ form.cfrs(class='form-control multiple-select', required=True) }}
+        </div>
+        <div data-toggle="fieldset" id="component-fieldset" class="form-group panel panel-default">
+            <div class="panel-heading">
+                {{ form.components.label }}
+                <button class="pull-right btn-link" type="button" data-toggle="fieldset-add-row" data-target="#component-fieldset"><i class="glyphicon glyphicon-plus"></i> Add a component</button>
+            </div>
+            <table class="table" style="display: none;">
+                <thead>
+                <th>System</th>
+                <th>Component Type</th>
+                <th>Manufacturer</th>
+                <th>Failure Cause</th>
+                <th>ICES Device ID</th>
+                <th>Reportable to ICES</th>
+                <th></th>
+                </thead>
+                <tbody>
+                {% for component in form.components%}
+                    <tr data-toggle="fieldset-entry">
+                        <td>{{ component.system(class='form-control') }}</td>
+                        <td>{{ component.component_type(class='form-control') }}</td>
+                        <td>{{ component.manufacturer(class='form-control') }}</td>
+                        <td>{{ component.cause(class='form-control') }}</td>
+                        <td>{{ component.inpo_device_id(class='form-control') }}</td>
+                        <td>{{ component.reportable_ices(class='form-control') }}</td>
+                        <td><button class="pull-right btn-link" type="button" data-toggle="fieldset-remove-row" id="component-{{loop.index0}}-remove"><i class="glyphicon glyphicon-remove"></i></button>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="form-group required">
+            {{ form.abstract.label(class_='control-label') }}
+            {{ form.abstract(class='form-control', required=True) }}
+        </div>
+        <div class="form-group required">
+            {{ form.body.label(class_='control-label') }}
+            {{ form.body(class='form-control', required=True) }}
+        </div>
+        {{ form.submit(class='btn btn-success') }}
+    </form>
     {% endif %}
 </div>
 {% endblock %}
+{% block scripts %}
+{{ super() }}
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.full.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.7.0/chosen.jquery.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/dynamicform.js') }}"></script>
+{{ pagedown.include_pagedown() }}
+{% endblock %}
+<i></i>

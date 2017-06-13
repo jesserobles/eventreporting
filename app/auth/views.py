@@ -49,14 +49,17 @@ def register():
     form = RegistrationForm()
     if form.validate_on_submit():
         user = User(email=form.email.data,
+                    first_name=form.first_name.data,
+                    last_name=form.last_name.data,
                     username=form.username.data,
                     password=form.password.data)
         db.session.add(user)
         db.session.commit()
         token = user.generate_confirmation_token()
-        send_email(user.email, 'Confirm Your Account',
-                   'auth/email/confirm', user=user, token=token)
-        flash('A confirmation email has been sent to the email you provided.')
+        if not user.confirmed:
+            send_email(user.email, 'Confirm Your Account',
+                       'auth/email/confirm', user=user, token=token)
+            flash('A confirmation email has been sent to the email you provided.')
         return redirect(url_for('main.index'))
     return render_template('auth/register.html', form=form)
 

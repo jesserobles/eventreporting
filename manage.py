@@ -2,19 +2,21 @@
 import os
 from app import create_app, db
 from app.models import User, Role, CFR, Facility, Permission, EIISComponentType, System, ComponentCause, LER, \
-    ComponentFailure, Component
+    ComponentFailure, Component, Manufacturer
 from flask_script import Manager, Shell
 from flask_migrate import Migrate, MigrateCommand
+from flask_moment import Moment
 
 app = create_app(os.getenv('FLASK_CONFIG') or 'default')
 manager = Manager(app)
 migrate = Migrate(app, db)
+moment = Moment(app)
 
 
 def make_shell_context():
     return dict(app=app, db=db, User=User, Role=Role, CFR=CFR, Facility=Facility, Permission=Permission,
                 EIISComponentType=EIISComponentType, System=System, ComponentCause=ComponentCause, LER=LER,
-                Component=Component, ComponentFailure=ComponentFailure)
+                Component=Component, ComponentFailure=ComponentFailure, Manufacturer=Manufacturer)
 manager.add_command("shell", Shell(make_context=make_shell_context))
 manager.add_command('db', MigrateCommand)
 

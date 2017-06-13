@@ -1,14 +1,16 @@
 {% extends "base.html" %}
 {% set active_page = "ler-list" %}
 {% import "bootstrap/wtf.html" as wtf %}
-{% block title %}NRC Events Reporting - Create LER{% endblock %}
+{% block title %}NRC Events Reporting - LER List{% endblock %}
 {% block page_content %}
 <div class="page-header">
     <h1>LER List</h1>
  </div>
 <div>
     {% if current_user.can(Permission.READ) %}
-    <p>LER LIST</p>
+    {% for ler in lers %}
+        <li>{{ ler.facilities.first().facility_name }} - {{ ler.ler_number }} - {{ ler.title }}</li>
+    {% endfor %}
     {% endif %}
 </div>
 {% endblock %}

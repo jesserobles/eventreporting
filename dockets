@@ -3,15 +3,15 @@
 05000334,Beaver Valley Power Station Unit 1,PWR
 05000412,Beaver Valley Power Station Unit 2,PWR
 05000155,Big Rock Point,BWR
-05000457,Braidwood Station Unit 1,PWR
 05000456,Braidwood Station Unit 1,PWR
+05000457,Braidwood Station Unit 2,PWR
 05000259,Browns Ferry Nuclear Plant Unit 1,BWR
 05000260,Browns Ferry Nuclear Plant Unit 2,BWR
 05000296,Browns Ferry Nuclear Plant Unit 3,BWR
 05000325,Brunswick Steam Electric Plant Unit 1,BWR
 05000324,Brunswick Steam Electric Plant Unit 2,BWR
-05000455,Byron Station Unit 2,PWR
 05000454,Byron Station Unit 1,PWR
+05000455,Byron Station Unit 2,PWR
 05000483,Callaway Unit 1,PWR
 05000317,Calvert Cliffs Nuclear Power Plant Unit 1,PWR
 05000318,Calvert Cliffs Nuclear Power Plant Unit 2,PWR
@@ -121,3 +121,39 @@
 05000029,Yankee-Rowe Nuclear Power Station,PWR
 05000295,Zion Nuclear Power Station Unit 1,PWR
 05000304,Zion Nuclear Power Station Unit 2,PWR
+887,Arkansas Nuclear One,None
+898,Braidwood Station,None
+952,Browns Ferry Nuclear Plant,None
+895,Brunswick Steam Electric Plant,None
+899,Byron Station,None
+890,Calvert Cliffs Nuclear Power Plant,None
+906,Catawba Nuclear Station,None
+950,Comanche Peak Nuclear Power Plant,None
+937,Diablo Canyon Power Plant,None
+920,Donald C. Cook Nuclear Plant,None
+900,Dresden Station,None
+886,Farley Nuclear Plant,None
+979,Indian Point Energy Center,None
+901,LaSalle County Generating Station,None
+932,Limerick Generating Station,None
+907,McGuire Nuclear Station,None
+926,Millstone Nuclear Power Station,None
+960,NextEra Energy Point Beach,None
+927,Nine Mile Point Nuclear Station,None
+956,North Anna Power Station,None
+908,Oconee Nuclear Station,None
+888,Palo Verde Nuclear Generating Station,None
+933,Peach Bottom Atomic Power Station,None
+930,Prairie Island Nuclear Generating Plant,None
+902,Quad Cities Station,None
+935,Salem Generating Station,None
+946,San Onofre Nuclear Generating Station,None
+953,Sequoyah Nuclear Plant,None
+918,South Texas Project Electric Generating Station One and Two,None
+911,St. Lucie Nuclear Power Plant,None
+957,Surry Power Station,None
+941,Susquehanna Steam Electric Station,None
+916,Three Mile Island Nuclear Station,None
+912,Turkey Point Nuclear Power Plant,None
+913,Vogtle Electric Generating Plant One and Two,None
+954,Watts Bar Nuclear Plant,None

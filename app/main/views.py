@@ -1,23 +1,24 @@
 from datetime import datetime
-from flask import render_template, session, redirect, url_for, abort, flash
+from flask import render_template, session, redirect, url_for, abort, flash, request, current_app
 from flask_login import login_required, current_user
 from . import main
-from .forms import NameForm, EditProfileForm, EditProfileAdminForm, LERForm
+from .forms import EditProfileForm, EditProfileAdminForm, LERForm, AddComponentForm, CFRSelectForm
 from .. import db
-from ..models import User, Role, Permission, LER
+from ..models import User, Role, Permission, LER, Component, Facility, CFR, ComponentFailure, ComponentCause, \
+    EIISComponentType, System
 from ..decorators import admin_required, permission_required
 
 
 @main.route('/', methods=['GET', 'POST'])
 def index():
-    form = NameForm()
-    if form.validate_on_submit():
-        #
-        return redirect(url_for('.index'))
+    page = request.args.get('page', 1, type=int)
+    pagination = LER.query.order_by(LER.id.desc()).paginate(page,
+                                                            per_page=current_app.config['NRCEVENTS_POSTS_PER_PAGE'],
+                                                            error_out=False)
+    lers = pagination.items
     return render_template('index.html',
-                           form=form, name=session.get('name'),
-                           known=session.get('known', False),
-                           current_time=datetime.utcnow())
+                           lers=lers, name=session.get('name'),
+                           pagination=pagination)
 
 
 @main.route('/admin')
@@ -88,31 +89,163 @@ def edit_profile_admin(id):
 @permission_required(Permission.WRITE)
 def create_ler():
     form = LERForm()
-    if current_user.can(Permission.WRITE) and form.validate_on_submit():
-        ler = LER(docket=form.docket.data,
+    seq = 1
+    if form.validate_on_submit():
+        facilities = [Facility.query.filter_by(id=fac).first() for fac in form.facilities.data]
+        cfrs = [CFR.query.filter_by(id=cfr).first() for cfr in form.cfrs.data]
+        ler_number = facilities[0].docket[5:] + str(form.event_date.data.year) + '001R00'
+        ler = LER.query.filter_by(ler_number=ler_number).first()
+        if ler:
+            while ler is not None:
+                seq += 1
+                ler_number = (facilities[0].docket[5:] if facilities[0].docket.startswith('0')
+            else facilities[0].docket) + str(form.event_date.data)[:4] + '00{}R00'.format(seq)
+                ler = LER.query.filter_by(ler_number=ler_number).first()
+        ler = LER(facilities=facilities,
                   title=form.title.data,
                   event_date=form.event_date.data,
-                  ler_number=form.ler_number.data,
+                  ler_number=ler_number,
                   operating_mode=form.operating_mode.data,
                   power_level=form.power_level.data,
-                  cfr=form.cfr.data,
+                  cfrs=cfrs,
                   abstract=form.abstract.data,
                   body=form.body.data,
                   author=current_user._get_current_object())
+        for component in form.components:
+            if component.system.data == -1 or component.component_type.data == -1 or component.cause.data == -1:
+                continue
+            if component.inpo_device_id.data != '':
+                c = Component.query.filter_by(inpo_device_id=component.inpo_device_id.data).first()
+                if c is None:
+                    c = Component(system_id=component.system.data, eiiscomponenttype_id=component.component_type.data,
+                                  manufacturer_id=component.manufacturer.data, facility_id=ler.facilities[0].id,
+                                  inpo_device_id=component.inpo_device_id.data)
+                    db.session.add(c)
+            else:
+                c = Component(system_id=component.system.data,
+                              eiiscomponenttype_id=component.component_type.data,
+                              manufacturer_id=component.manufacturer.data, facility_id=ler.facilities[0].id)
+                db.session.add(c)
+            reportable = component.reportable_ices.data
+            cf = ComponentFailure(ler=ler,
+                                  component=c,
+                                  cause_id=component.cause.data,
+                                  reportable_ices=reportable)
+            ler.components.append(cf)
         db.session.add(ler)
-        # db.session.commit()
+        flash("You have successfully added LER {}.".format(ler_number))
         return redirect(url_for('.index'))
     return render_template('create_ler.html', form=form)
+
+
+@main.route('/edit/<string:lernum>', methods=['GET', 'POST'])
+@login_required
+@permission_required(Permission.WRITE)
+def edit_ler(lernum):
+    ler = LER.query.filter_by(ler_number=lernum).first()
+    if ler is None:
+        abort(404)
+    if current_user != ler.author and not current_user.can(Permission.ADMINISTER):
+        abort(403)
+    if ler.approved:
+        flash('This LER has already been approved and cannot be edited.')
+        return redirect(url_for('main.ler', lernum=lernum))
+    form = LERForm()
+    if form.validate_on_submit():
+        ler.facilities = [Facility.query.filter_by(id=fac).first() for fac in form.facilities.data]
+        ler.title = form.title.data
+        ler.event_date = form.event_date.data
+        ler.operating_mode = form.operating_mode.data
+        ler.power_level = form.power_level.data
+        ler.cfrs = [CFR.query.filter_by(id=cfr).first() for cfr in form.cfrs.data]
+        ler.abstract = form.abstract.data
+        ler.body = form.body.data
+        ler.components.delete()
+        for component in form.components:
+            if component.system.data == -1 or component.component_type.data == -1 or component.cause.data == -1:
+                continue
+            if component.inpo_device_id.data != '':
+                c = Component.query.filter_by(inpo_device_id=component.inpo_device_id.data).first()
+                if c is None:
+                    c = Component(system_id=component.system.data, eiiscomponenttype_id=component.component_type.data,
+                                  manufacturer_id=component.manufacturer.data, facility_id=ler.facilities[0].id,
+                                  inpo_device_id=component.inpo_device_id.data)
+                    db.session.add(c)
+            else:
+                c = Component(system_id=component.system.data,
+                              eiiscomponenttype_id=component.component_type.data,
+                              manufacturer_id=component.manufacturer.data, facility_id=ler.facilities[0].id)
+                db.session.add(c)
+            reportable = component.reportable_ices.data
+            cf = ComponentFailure(ler=ler,
+                                  component=c,
+                                  cause_id=component.cause.data,
+                                  reportable_ices=reportable)
+            ler.components.append(cf)
+        db.session.add(ler)
+        flash('LER {} has been updated.'.format(lernum))
+        return redirect(url_for('main.ler', lernum=lernum))
+    form.facilities.data = [f.id for f in ler.facilities]
+    form.title.data = ler.title
+    form.event_date.data = ler.event_date
+    form.operating_mode.data = ler.operating_mode
+    form.power_level.data = ler.power_level
+    form.cfrs.data = [cfr.id for cfr in ler.cfrs]
+    if ler.components.all():
+        has_components = True
+        for component in ler.components:
+            cur = form.components[-1]
+            cur.system.data = component.component.system_id
+            cur.component_type.data = component.component.eiiscomponenttype_id
+            cur.manufacturer.data = component.component.manufacturer
+            cur.cause.data = component.cause_id
+            cur.reportable_ices.data = component.reportable_ices
+            cur.inpo_device_id.data = component.component.inpo_device_id
+            if len(form.components) < len(ler.components.all()):
+                form.components.append_entry()
+    else:
+        has_components = False
+    form.abstract.data = ler.abstract
+    form.body.data = ler.body
+    return render_template('edit_ler.html', form=form, lernum=lernum, has_components=has_components)
 
 
 @main.route('/add-component', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.WRITE)
 def add_component():
-    return 'Add a Component!'
+    form = AddComponentForm()
+    if current_user.can(Permission.WRITE) and form.validate_on_submit():
+        component = Component(facility_id=form.facility.data,
+                              system_id=form.system.data,
+                              eiiscomponenttype_id=form.component_type.data,
+                              manufacturer_id=form.manufacturer.data,
+                              inpo_device_id=form.inpo_device_id.data)
+        db.session.add(component)
+        flash("You have successfully added a new component.")
+        return redirect(url_for('.index'))
+    return render_template('add_component.html', form=form)
+
+
+@main.route('/remove-component/<int:id>', methods=['GET', 'POST'])
+@login_required
+@permission_required(Permission.WRITE)
+def remove_component(id):
+    pass
 
 
 @main.route('/ler-list')
 @login_required
 def ler_list():
-    return render_template('ler_list.html')
+    lers = LER.query.all()
+    return render_template('ler_list.html', lers=lers)
+
+
+@main.route('/ler/<string:lernum>')
+@login_required
+@permission_required(Permission.READ)
+def ler(lernum):
+    ler = LER.query.filter_by(ler_number=lernum).first()
+    if ler is None:
+        abort(404)
+    return render_template('ler.html', ler=ler)

@@ -1,12 +1,13 @@
 {% extends "base.html" %}
 {% set active_page = "home" %}
 {% import "bootstrap/wtf.html" as wtf %}
+{% import "_macros.html" as macros %}
 
 {% block title %}NRC Events Reporting{% endblock %}
 
 {% block page_content %}
 <div class="page-header">
-  <h1>Welcome,
+  <h1>Welcome
     {% if current_user.is_authenticated %}
       {% if current_user.first_name %}
         {{ current_user.first_name }}!
@@ -14,9 +15,17 @@
         {{ current_user.username }}
       {% endif %}
     {% else %}
-      Stranger!
+      to the NRC Events Reporting Application!
     {% endif %}</h1>
 </div>
-{{ wtf.quick_form(form) }}
+{% if current_user.can(Permission.READ) %}
+<div class="lers-tab">
+    {% include '_lers.html' %}
+
+</div>
+<div class="pagination">
+        {{ macros.pagination_widget(pagination, '.index') }}
+</div>
+{% endif %}
 {% endblock %}
 

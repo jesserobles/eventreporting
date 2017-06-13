@@ -1,10 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+<div class="panel panel-default">
+    <div class="panel-heading">Recent Licensee Event Reports</div>
+    <!-- LER Table -->
+    <table class="table">
+        <thead>
+            <tr>
+                <th>LER Number</th>
+                <th>Facility</th>
+                <th>Title</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% if lers|length > 0 %}
+            {% for ler in lers %}
+            <tr>
+                <th scope="row"><a href="{{ url_for('main.ler', lernum=ler.ler_number) }}">{{ ler.ler_number }}</a></th>
+                <td>{{ ler.facilities.first().facility_name }}</td>
+                <td>{{ ler.title }}</td>
+            </tr>
+            {%  endfor %}
+        {% else %}
+        <tr>
+            <td>NO LERS</td>
+        </tr>
+        {% endif %}
+        </tbody>
+    </table>
+</div>
