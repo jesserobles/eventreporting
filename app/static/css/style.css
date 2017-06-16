@@ -73,3 +73,54 @@ h1, h2, h3, h4, h5, h6 {
 p, div {
     font-family: "Segoe UI", "Open Sans", sans-serif;
 }
+
+.bordered {
+    border: 1px solid black;
+}
+
+.bordered-big {
+/*    height: 234px;*/
+    border: 1px solid black;
+}
+
+.bordered-med {
+    height: 44px;
+    border: 1px solid black;
+}
+
+.bleft {
+    margin-top: 0px;
+    border-left: 1px solid black;
+}
+
+.bright {
+    border-right: 1px solid black;
+}
+
+.btop {
+    border-top: 1px solid black;
+}
+
+.bbottom {
+    border-bottom: 1px solid black;
+}
+
+.nested {
+    margin:-1px -1px -1px -1px;
+}
+/*
+ * Row with equal height columns
+ * --------------------------------------------------
+ */
+.row-eq-height {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display:         flex;
+}
+
+.vcenter {
+    vertical-align: middle;
+    display: inline-block;
+}
+

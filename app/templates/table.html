@@ -1,0 +1,416 @@
+{% extends "base.html" %}
+{% set active_page = "ler" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}NRC Events Reporting - LER{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+{{ moment.include_moment() }}
+{% endblock %}
+
+{% block page_content %}
+<div class="container bordered">
+    <div class="row row-eq-height">
+        <div class="col-md-6 bordered">
+            <div class="pull-left"><b>NRC FORM 366</b></div>
+            <div class="pull-right"><b>U.S. NUCLEAR REGULATORY COMMISSION</b></div>
+            <br>
+            <div class="pull-left">(04-2017)</div>
+            <br>
+            <br>
+            <span align="center"><span class="pull-left"><img src="{{ url_for('static', filename='img/nrc_small.jpg') }}" alt=""> </span><h3><b>LICENSEE EVENT REPORT (LER)</b></h3></span>
+            <br/>
+            <br/>
+            <p class="text-center">(See NUREG-1022, R.3 for instruction and guidance for completing this form
+                <a href="http://www.nrc.gov/reading-rm/doc-collections/nuregs/staff/sr1022/r3/">http://www.nrc.gov/reading-rm/doc-collections/nuregs/staff/sr1022/r3/)</a></p>
+        </div>
+        <div class="col-md-6 bordered">
+            <span class="pull-left"><b>APPROVED BY OMB: NO. 3150-0104</b></span>
+            <span class="pull-right"><b>EXPIRES: 03/31/2020</b></span>
+            <br/><br/>
+            <p>Estimated burden per response to comply with this mandatory collection request: 80 hours.
+               Reported lessons learned are incorporated into the licensing process and fed back to industry.
+               Send comments regarding burden estimate to the Information Services Branch (T-2 F43), U.S.
+               Nuclear Regulatory Commission, Washington, DC 20555-0001, or by e-mail to Infocollects.
+               Resource@nrc.gov, and to the Desk Officer, Office of Information and Regulatory Affairs,
+               NEOB-10202, (3150-0104), Office of Management and Budget, Washington, DC 20503. If a means
+               used to impose an information collection does not display a currently valid OMB control number,
+               the NRC may not conduct or sponsor, and a person is not required to respond to, the information
+               collection.
+            </p>
+        </div>
+    </div>
+    <div class="row row-eq-height">
+        <div class="col-md-6 bordered"><b>1. Facility Name</b>
+            <div class="text-center">{{ ler.facilities[0].facility_name }}</div>
+        </div>
+        <div class="col-md-3 bordered"><b>2. Docket Number</b>
+            <div class="text-center">{{ ler.facilities[0].docket }}</div>
+        </div>
+        <div class="col-md-3 bordered"><b>3. Page</b>
+            <div class="text-center">1 of _</div>
+        </div>
+    </div>
+    <div class="row row-eq-height bordered">
+        <div class="col-md-12"><b>4. Title</b>
+            <div>{{ ler.title }}</div>
+        </div>
+    </div>
+    <div class="row row-eq-height">
+        <div class="col-md-3 text-center bordered"><b>5. Event Date</b></div>
+        <div class="col-md-3 text-center bordered"><b>6. LER Number</b></div>
+        <div class="col-md-3 text-center bordered"><b>7. Report Date</b></div>
+        <div class="col-md-3 text-center bordered"><b>8. Other Facilities Involved</b></div>
+    </div>
+    <div class="row row-eq-height">
+        <div class="col-md-1 text-center bordered">Month</div>
+        <div class="col-md-1 text-center bordered">Day</div>
+        <div class="col-md-1 text-center bordered">Year</div>
+        <div class="col-md-1 text-center bordered">Year</div>
+        <div class="col-md-1 text-center bordered">Sequential Number</div>
+        <div class="col-md-1 text-center bordered">Revision</div>
+        <div class="col-md-1 text-center bordered">Month</div>
+        <div class="col-md-1 text-center bordered">Day</div>
+        <div class="col-md-1 text-center bordered">Year</div>
+        <div class="col-md-2 text-center bordered">Facility Name
+            <div>{% if ler.facilities.all()|length > 1 %}{{ ler.facilities[1].facility_name }}{% endif %}</div>
+        </div>
+        <div class="col-md-1 text-center bordered"><small>Docket No</small>
+            <div>{% if ler.facilities.all()|length == 3 %}{{ ler.facilities[2].docket }}{% endif %}</div>
+        </div>
+    </div>
+        <div class="row row-eq-height">
+        <div class="col-md-1 text-center bordered">{{ ler.event_date.month }}</div>
+        <div class="col-md-1 text-center bordered">{{ ler.event_date.day }}</div>
+        <div class="col-md-1 text-center bordered">{{ ler.event_date.year }}</div>
+        <div class="col-md-1 text-center bordered">{{ ler.ler_number[3:7] }}</div>
+        <div class="col-md-1 text-center bordered">{{ ler.ler_number[7:-3] }}</div>
+        <div class="col-md-1 text-center bordered">{{ ler.ler_number[-2:] }}</div>
+        <div class="col-md-1 text-center bordered">{{ ler.report_date.month }}</div>
+        <div class="col-md-1 text-center bordered">{{ ler.report_date.day }}</div>
+        <div class="col-md-1 text-center bordered">{{ ler.report_date.year }}</div>
+        <div class="col-md-2 text-center bordered">Facility Name
+            <div>{% if ler.facilities.all()|length == 3 %}{{ ler.facilities[2].facility_name }}{% else %}<br>{% endif %}</div>
+        </div>
+        <div class="col-md-1 text-center bordered"><small>Docket No</small>
+            <div>{% if ler.facilities.all()|length == 3 %}{{ ler.facilities[2].docket }}{% endif %}</div>
+        </div>
+    </div>
+    <div class="row row-eq-height">
+        <div class="col-md-3 bordered text-center vcenter"><b>9. Operating Mode</b></div>
+        <div class="col-md-9 bordered text-center"><b>11. THIS REPORT IS SUBMITTED PURSUANT TO THE REQUIREMENTS OF 10 CFR §: (Check all that apply)</b></div>
+    </div>
+    <div class="row row-eq-height">
+        <div class="col-md-3 text-center bordered"><p>{{ ler.operating_mode }}</p></div>
+        <div class="col-md-9">
+            <div class="row">
+                <div class="col-md-3 bordered">
+                    <label>
+                      <input type="checkbox"{% if '20.2201(b)' in cfrs %} checked{% endif %}> 20.2201(b)
+                    </label>
+                </div>
+                <div class="col-md-3 bordered">
+                    <label>
+                      <input type="checkbox"{% if '20.2203(a)(3)(i)' in cfrs %} checked{% endif %}> 20.2203(a)(3)(i)
+                    </label>
+                </div>
+                <div class="col-md-3 bordered">
+                    <label>
+                      <input type="checkbox"{% if '50.73(a)(2)(ii)(A)' in cfrs %} checked{% endif %}> 50.73(a)(2)(ii)(A)
+                    </label>
+                </div>
+                <div class="col-md-3 bordered">
+                    <label>
+                      <input type="checkbox"{% if '50.73(a)(2)(viii)(A)' in cfrs %} checked{% endif %}> 50.73(a)(2)(viii)(A)
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 bordered">
+                    <label>
+                      <input type="checkbox"{% if '20.2201(d)' in cfrs %} checked{% endif %}> 20.2201(d)
+                    </label>
+                </div>
+                <div class="col-md-3 bordered">
+                    <label>
+                      <input type="checkbox"{% if '20.2203(a)(3)(ii)' in cfrs %} checked{% endif %}> 20.2203(a)(3)(ii)
+                    </label>
+                </div>
+                <div class="col-md-3 bordered">
+                    <label>
+                      <input type="checkbox"{% if '50.73(a)(2)(ii)(B)' in cfrs %} checked{% endif %}> 50.73(a)(2)(ii)(B)
+                    </label>
+                </div>
+                <div class="col-md-3 bordered">
+                    <label>
+                      <input type="checkbox"{% if '50.73(a)(2)(viii)(B)' in cfrs %} checked{% endif %}> 50.73(a)(2)(viii)(B)
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 bordered">
+                    <label>
+                      <input type="checkbox"{% if '20.2203(a)(1)' in cfrs %} checked{% endif %}> 20.2203(a)(1)
+                    </label>
+                </div>
+                <div class="col-md-3 bordered">
+                    <label>
+                      <input type="checkbox"{% if '20.2203(a)(4)' in cfrs %} checked{% endif %}> 20.2203(a)(4)
+                    </label>
+                </div>
+                <div class="col-md-3 bordered">
+                    <label>
+                      <input type="checkbox"{% if '50.73(a)(2)(iii)' in cfrs %} checked{% endif %}> 50.73(a)(2)(iii)
+                    </label>
+                </div>
+                <div class="col-md-3 bordered">
+                    <label>
+                      <input type="checkbox"{% if '50.73(a)(2)(ix)(A)' in cfrs %} checked{% endif %}> 50.73(a)(2)(ix)(A)
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 bordered">
+                    <label>
+                      <input type="checkbox"{% if '20.2203(a)(2)(i)' in cfrs %} checked{% endif %}> 20.2203(a)(2)(i)
+                    </label>
+                </div>
+                <div class="col-md-3 bordered">
+                    <label>
+                      <input type="checkbox"{% if '50.36(c)(1)(i)(A)' in cfrs %} checked{% endif %}> 50.36(c)(1)(i)(A)
+                    </label>
+                </div>
+                <div class="col-md-3 bordered">
+                    <label>
+                      <input type="checkbox"{% if '50.73(a)(2)(iv)(A)' in cfrs %} checked{% endif %}> 50.73(a)(2)(iv)(A)
+                    </label>
+                </div>
+                <div class="col-md-3 bordered">
+                    <label>
+                      <input type="checkbox"{% if '50.73(a)(2)(x)' in cfrs %} checked{% endif %}> 50.73(a)(2)(x)
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row row-eq-height">
+        <div class="col-md-3 text-center bordered"><b>10. Power Level</b>
+            <div>{{ ler.power_level }}</div>
+        </div>
+        <div class="col-md-9">
+            <div class="row">
+                <div class="col-md-3 bordered">
+                    <label>
+                      <input type="checkbox"{% if '20.2203(a)(2)(ii)' in cfrs %} checked{% endif %}> 20.2203(a)(2)(ii)
+                    </label>
+                </div>
+                <div class="col-md-3 bordered">
+                    <label>
+                      <input type="checkbox"{% if '50.36(c)(1)(ii)(A)' in cfrs %} checked{% endif %}> 50.36(c)(1)(ii)(A)
+                    </label>
+                </div>
+                <div class="col-md-3 bordered">
+                    <label>
+                      <input type="checkbox"{% if '50.73(a)(2)(v)(A)' in cfrs %} checked{% endif %}> 50.73(a)(2)(v)(A)
+                    </label>
+                </div>
+                <div class="col-md-3 bordered">
+                    <label>
+                      <input type="checkbox"{% if '73.71(a)(4)' in cfrs %} checked{% endif %}> 73.71(a)(4)
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 bordered">
+                    <label>
+                      <input type="checkbox"{% if '20.2203(a)(2)(iii)' in cfrs %} checked{% endif %}> 20.2203(a)(2)(iii)
+                    </label>
+                </div>
+                <div class="col-md-3 bordered">
+                    <label>
+                      <input type="checkbox"{% if '50.36(c)(2)' in cfrs %} checked{% endif %}> 50.36(c)(2)
+                    </label>
+                </div>
+                <div class="col-md-3 bordered">
+                    <label>
+                      <input type="checkbox"{% if '50.73(a)(2)(v)(B)' in cfrs %} checked{% endif %}> 50.73(a)(2)(v)(B)
+                    </label>
+                </div>
+                <div class="col-md-3 bordered">
+                    <label>
+                      <input type="checkbox"{% if '73.71(a)(5)' in cfrs %} checked{% endif %}> 73.71(a)(5)
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 bordered">
+                    <label>
+                      <input type="checkbox"{% if '20.2203(a)(2)(iv)' in cfrs %} checked{% endif %}> 20.2203(a)(2)(iv)
+                    </label>
+                </div>
+                <div class="col-md-3 bordered">
+                    <label>
+                      <input type="checkbox"{% if '50.46(a)(3)(ii)' in cfrs %} checked{% endif %}> 50.46(a)(3)(ii)
+                    </label>
+                </div>
+                <div class="col-md-3 bordered">
+                    <label>
+                      <input type="checkbox"{% if '50.73(a)(2)(v)(C)' in cfrs %} checked{% endif %}> 50.73(a)(2)(v)(C)
+                    </label>
+                </div>
+                <div class="col-md-3 bordered">
+                    <label>
+                      <input type="checkbox"{% if '73.77(a)(1)' in cfrs %} checked{% endif %}> 73.77(a)(1)
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 bordered">
+                    <label>
+                      <input type="checkbox"{% if '20.2203(a)(2)(v)' in cfrs %} checked{% endif %}> 20.2203(a)(2)(v)
+                    </label>
+                </div>
+                <div class="col-md-3 bordered">
+                    <label>
+                      <input type="checkbox"{% if '50.73(a)(2)(i)(A)' in cfrs %} checked{% endif %}> 50.73(a)(2)(i)(A)
+                    </label>
+                </div>
+                <div class="col-md-3 bordered">
+                    <label>
+                      <input type="checkbox"{% if '50.73(a)(2)(v)(D)' in cfrs %} checked{% endif %}> 50.73(a)(2)(v)(D)
+                    </label>
+                </div>
+                <div class="col-md-3 bordered">
+                    <label>
+                      <input type="checkbox"{% if '73.77(a)(2)(i)' in cfrs %} checked{% endif %}> 73.77(a)(2)(i)
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 bordered">
+                    <label>
+                      <input type="checkbox"{% if '20.2203(a)(2)(vi)' in cfrs %} checked{% endif %}> 20.2203(a)(2)(vi)
+                    </label>
+                </div>
+                <div class="col-md-3 bordered">
+                    <label>
+                      <input type="checkbox"{% if '50.73(a)(2)(i)(B)' in cfrs %} checked{% endif %}> 50.73(a)(2)(i)(B)
+                    </label>
+                </div>
+                <div class="col-md-3 bordered">
+                    <label>
+                      <input type="checkbox"{% if '50.73(a)(2)(vii)' in cfrs %} checked{% endif %}> 50.73(a)(2)(vii)
+                    </label>
+                </div>
+                <div class="col-md-3 bordered">
+                    <label>
+                      <input type="checkbox"{% if '73.77(a)(2)(ii)' in cfrs %} checked{% endif %}> 73.77(a)(2)(ii)
+                    </label>
+                </div>
+            </div>
+            <div class="row row-eq-height">
+                <div class="col-md-3 bordered">
+                    <label>
+
+                    </label>
+                </div>
+                <div class="col-md-3 bordered">
+                    <label>
+                      <input type="checkbox"{% if '50.73(a)(2)(i)(C)' in cfrs %} checked{% endif %}> 50.73(a)(2)(i)(C)
+                    </label>
+                </div>
+                <div class="col-md-6 bordered">
+                    <label>
+                      <input type="checkbox"{% if 'OTHER' in cfrs %} checked{% endif %}> Other <small>Specify in Abstract below or in NRC Form 366A</small>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row text-center bordered"><b>12. Licensee Contact for this LER</b></div>
+    <div class="row">
+        <div class="col-md-9 bordered-med">Licensee Contact
+            <div>{{ ler.author.first_name }} {{ ler.author.last_name }}</div>
+        </div>
+        <div class="col-md-3 bordered-med">Telephone Number <small>(include area code)</small>
+            <div>{{ ler.author.phone }}</div>
+        </div>
+    </div>
+    <div class="row text-center bordered"><b>13. COMPLETE ONE LINE FOR EACH COMPONENT FAILURE DESCRIBED IN THIS REPORT</b></div>
+
+    <!--Component Failures-->
+    {% for component in ler.components %}
+    <div class="row">
+        <div class="col-md-10">
+            <div class="row">
+                <div class="col-md-3 text-center bordered">Cause</div>
+                <div class="col-md-3 text-center bordered">System</div>
+                <div class="col-md-3 text-center bordered">Component</div>
+                <div class="col-md-3 text-center bordered">Manufacturer</div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="row">
+                <div class="col-12 text-center bordered">Reportable to ICES</div>
+            </div>
+        </div>
+    </div>
+    <div class="row row-eq-height">
+        <div class="col-md-10">
+            <div class="row row-eq-height">
+                <div class="col-md-3 text-center bordered">{{ component.componentcause.cause_name }}</div>
+                <div class="col-md-3 text-center bordered">{{ component.component.system.name }}</div>
+                <div class="col-md-3 text-center bordered">{{ component.component.eiiscomponenttype.name }}</div>
+                <div class="col-md-3 text-center bordered">{{ component.component.manufacturer.name }}</div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="row">
+                <div class="col-12 text-center bordered">
+                    <div>{% if component.reportable_ices %}YES{% else %}NO{% endif %}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    <!--End Component Failures-->
+    <div class="row row-eq-height bordered">
+        <div class="col-md-7 bordered nested"><b>14. Supplemental Report Expected</b><br>
+            <label>
+              <input type="checkbox"{% if ler.supplement_expected %} checked{% endif %}> Yes <small><em>(If yes, complete 15. EXPECTED SUBMISSION DATE)</em></small>
+            </label>
+            <label class="pull-right">
+              <input type="checkbox"{% if  not ler.supplement_expected %} checked{% endif %}> No
+            </label>
+        </div>
+        <div class="col-md-5">
+            <div class="row row-eq-height">
+                <div class="col-md-6 bordered" style="margin:-1px 0px -1px 0px;"><b>15. Expected Submission Date</b></div>
+                <div class="col-md-6 pull-right" style="margin: -1px 0px -2px 0px; padding-right:12px; padding-bottom:1px;">
+                    <div class="row row-eq-height">
+                        <div class="col-md-4 bordered text-center">Month</div>
+                        <div class="col-md-4 bordered text-center">Day</div>
+                        <div class="col-md-4 bordered text-center">Year</div>
+                    </div>
+                    <div class="row row-eq-height">
+                        <div class="col-md-4 bordered text-center">{% if ler.supplement_date %}{{ ler.supplement_date.month }}{% else %}<br>{% endif %}</div>
+                        <div class="col-md-4 bordered text-center">{{ ler.supplement_date.day }}</div>
+                        <div class="col-md-4 bordered text-center">{{ ler.supplement_date.year }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row bordered" style="min-height: 400px;">Abstract <small><em>(Limit to 1400 spaces, i.e., approximately 15 single-spaced typewritten lines)</em></small>
+        <br><br>
+        <div style="padding: 10px;">{{ ler.abstract }}</div>
+    </div>
+    <div class="row row-eq-height bordered">
+        <div class="col-md-12"><b>Narrative</b>
+            <div>{{ ler.body|safe }}</div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

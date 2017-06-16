@@ -2,7 +2,7 @@
 {% set active_page = "create-ler" %}
 {% import "bootstrap/wtf.html" as wtf %}
 {% import "bootstrap/utils.html" as utils%}
-{% block title %}NRC Events Reporting - Edit LER{% endblock %}
+{% block title %}NRC Events Reporting - Edit LER {{ lernum }}{% endblock %}
 {% block head %}
 {{ super() }}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css">
@@ -12,7 +12,7 @@
 {% endblock %}
 {% block page_content %}
 <div class="page-header">
-    <h1>Edit LER</h1>
+    <h1>Edit LER {{ lernum }}</h1>
  </div>
 <div>
     {% if current_user.can(Permission.WRITE) %}
@@ -74,13 +74,10 @@
             </table>
         </div>
         <div class="form-group">
-            {% if form.supplement_expected %}
             {{ form.supplement_expected.label(class='control-label') }}
-            {{ form.supplement_expected }}
+            {{ form.supplement_expected(class='form-control') }}
             {{ form.supplement_date.label(class='control-label') }}
-            {{ form.supplement_date(class='form') }}
-            {% else %}
-            {% endif %}
+            {{ form.supplement_date(class='form-control') }}
         </div>
         <div class="form-group required">
             {{ form.abstract.label(class_='control-label') }}
@@ -88,7 +85,7 @@
         </div>
         <div class="form-group required">
             {{ form.body.label(class_='control-label') }}
-            {{ form.body(class='form-control', required=True) }}
+            {{ form.body }}
         </div>
         {{ form.submit(class='btn btn-success', value='Update LER') }}
         <a href="{{ url_for('.ler', lernum=lernum) }}" class="btn btn-danger">Cancel</a>
@@ -101,6 +98,7 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.full.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.7.0/chosen.jquery.min.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="//cdn.ckeditor.com/4.7.0/standard/ckeditor.js"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='js/dynamicform.js') }}"></script>
 {{ pagedown.include_pagedown() }}
 {% endblock %}

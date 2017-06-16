@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, TextAreaField, SubmitField, BooleanField, SelectField, ValidationError, \
-    SelectMultipleField, DateField, IntegerField, widgets, FormField, Form
+    SelectMultipleField, DateField, IntegerField, widgets, FormField
+from wtforms.widgets import TextArea
 from flask_pagedown.fields import PageDownField
 from wtforms.validators import DataRequired, Length, Email, Regexp, NumberRange, InputRequired, Optional
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
@@ -8,9 +9,19 @@ from wtforms_alchemy import ModelFieldList, ModelForm
 from ..models import Role, User, Facility, CFR, System, EIISComponentType, Component, ComponentCause, Manufacturer
 
 
-class MultiCheckboxField(SelectMultipleField):
-    widget = widgets.ListWidget(prefix_label=False)
-    option_widget = widgets.CheckboxInput()
+class CKTextAreaWidget(TextArea):
+    def __call__(self, field, **kwargs):
+        kwargs.setdefault('class_', 'ckeditor')
+        return super().__call__(field, **kwargs)
+
+
+class CKTextAreaField(TextAreaField):
+    widget = CKTextAreaWidget()
+
+
+# class MultiCheckboxField(SelectMultipleField):
+#     widget = widgets.ListWidget(prefix_label=False)
+#     option_widget = widgets.CheckboxInput()
 
 
 class EditProfileForm(FlaskForm):
@@ -101,7 +112,7 @@ class LERForm(FlaskForm):
                                 validators=[Optional()],
                                 render_kw={"placeholder": "mm/dd/yyyy"})
     abstract = TextAreaField("Abstract", validators=[DataRequired()])
-    body = PageDownField("LER Text", validators=[DataRequired()])
+    body = CKTextAreaField("LER Text", validators=[DataRequired()])
     submit = SubmitField('Create LER')
 
     def __init__(self, *args, **kwargs):
@@ -111,3 +122,8 @@ class LERForm(FlaskForm):
                                    if docket.docket.startswith('050')]
         self.cfrs.choices = [(cfr.id, cfr.cfr) for cfr in CFR.query.order_by(CFR.cfr).all()]
         self.operating_mode.choices = [('N/A', 'N/A'), ('1', '1'), ('2', '2'), ('3', '3'), ('4', '4'), ('5', '5')]
+
+
+#
+# class TestForm(FlaskForm):
+#     text = CKTextAreaField("Text")

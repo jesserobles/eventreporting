@@ -2,7 +2,7 @@ from datetime import datetime
 from flask import render_template, session, redirect, url_for, abort, flash, request, current_app
 from flask_login import login_required, current_user
 from . import main
-from .forms import EditProfileForm, EditProfileAdminForm, LERForm, AddComponentForm, CFRSelectForm
+from .forms import EditProfileForm, EditProfileAdminForm, LERForm, AddComponentForm
 from .. import db
 from ..models import User, Role, Permission, LER, Component, Facility, CFR, ComponentFailure, ComponentCause, \
     EIISComponentType, System
@@ -12,9 +12,10 @@ from ..decorators import admin_required, permission_required
 @main.route('/', methods=['GET', 'POST'])
 def index():
     page = request.args.get('page', 1, type=int)
-    pagination = LER.query.order_by(LER.id.desc()).paginate(page,
-                                                            per_page=current_app.config['NRCEVENTS_POSTS_PER_PAGE'],
-                                                            error_out=False)
+    pagination = LER.query.filter_by(
+        approved=False).order_by(LER.id.desc()).paginate(page,
+                                                         per_page=current_app.config['NRCEVENTS_POSTS_PER_PAGE'],
+                                                         error_out=False)
     lers = pagination.items
     return render_template('index.html',
                            lers=lers, name=session.get('name'),
@@ -204,7 +205,7 @@ def edit_ler(lernum):
             cur = form.components[-1]
             cur.system.data = component.component.system_id
             cur.component_type.data = component.component.eiiscomponenttype_id
-            cur.manufacturer.data = component.component.manufacturer
+            cur.manufacturer.data = component.component.manufacturer_id
             cur.cause.data = component.cause_id
             cur.reportable_ices.data = component.reportable_ices
             cur.inpo_device_id.data = component.component.inpo_device_id
@@ -234,18 +235,18 @@ def add_component():
     return render_template('add_component.html', form=form)
 
 
-@main.route('/remove-component/<int:id>', methods=['GET', 'POST'])
-@login_required
-@permission_required(Permission.WRITE)
-def remove_component(id):
-    pass
-
-
 @main.route('/ler-list')
 @login_required
 def ler_list():
-    lers = LER.query.all()
-    return render_template('ler_list.html', lers=lers)
+    page = request.args.get('page', 1, type=int)
+    pagination = LER.query.filter_by(
+        approved=True).order_by(LER.id.desc()).paginate(page,
+                                                        per_page=current_app.config['NRCEVENTS_POSTS_PER_PAGE'],
+                                                        error_out=False)
+    lers = pagination.items
+    return render_template('ler_list.html',
+                           lers=lers, name=session.get('name'),
+                           pagination=pagination)
 
 
 @main.route('/ler/<string:lernum>')
@@ -255,4 +256,12 @@ def ler(lernum):
     ler = LER.query.filter_by(ler_number=lernum).first()
     if ler is None:
         abort(404)
-    return render_template('ler.html', ler=ler)
+    cfrs = [cfr.cfr for cfr in ler.cfrs]
+    return render_template('table.html', ler=ler, cfrs=cfrs)
+
+
+@main.route('/test')
+def test():
+    ler = LER.query.all()[-1]
+    cfrs = [cfr.cfr for cfr in ler.cfrs]
+    return render_template('table.html', ler=ler, cfrs=cfrs)

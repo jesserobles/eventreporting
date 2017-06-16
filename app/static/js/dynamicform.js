@@ -1,3 +1,6 @@
+$(".multiple-select").chosen();
+$( "#event_date" ).datepicker();
+$( "#supplement_date" ).datepicker();
 $(function() {
     var table = $("table[class=table]");
     $("div[data-toggle=fieldset]").each(function() {
@@ -55,9 +58,4 @@ $(function() {
     });
 });
 
-//$(".js-example-basic-multiple").select2();
-//$(".js-example-basic-single").select2();
 $('.simple-select').chosen({ width: "210px" });
-$(".multiple-select").chosen();
-//$(".js-example-basic-multiple").chosen();
-$( "#event_date" ).datepicker();
