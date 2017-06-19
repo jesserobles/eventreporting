@@ -292,7 +292,7 @@ class System(db.Model):
     __tablename__ = 'systems'
     id = db.Column(db.Integer, primary_key=True)
     eiis_code = db.Column(db.String(4), index=True)
-    name = db.Column(db.String(64))
+    name = db.Column(db.String(100))
     components = db.relationship('Component', backref='system', lazy='dynamic')
 
     def __repr__(self):
