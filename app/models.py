@@ -269,7 +269,7 @@ class EIISComponentType(db.Model):
     __tablename__ = 'eiiscomponenttypes'
     id = db.Column(db.Integer, primary_key=True)
     eiis_code = db.Column(db.String(6))
-    name = db.Column(db.String(64))
+    name = db.Column(db.String(100))
     components = db.relationship('Component', backref='eiiscomponenttype', lazy='dynamic')
 
     def __repr__(self):
@@ -368,7 +368,7 @@ class ComponentCause(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     cause_code = db.Column(db.String(1))
     cause_name = db.Column(db.String(64))
-    description = db.Column(db.String(250))
+    description = db.Column(db.String(500))
     components = db.relationship('ComponentFailure', backref='componentcause', lazy='dynamic')
 
     def __repr__(self):
