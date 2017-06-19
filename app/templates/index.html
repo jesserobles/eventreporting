@@ -10,18 +10,17 @@
   <h1>Welcome
     {% if current_user.is_authenticated %}
       {% if current_user.first_name %}
-        {{ current_user.first_name }}!
+        {{ current_user.first_name }}
       {% else %}
         {{ current_user.username }}
       {% endif %}
     {% else %}
-      to the NRC Events Reporting Application!
+      to the NRC Events Reporting Application
     {% endif %}</h1>
 </div>
 {% if current_user.can(Permission.READ) %}
 <div class="lers-tab">
     {% include '_lers.html' %}
-
 </div>
 <div class="pagination">
         {{ macros.pagination_widget(pagination, '.index') }}

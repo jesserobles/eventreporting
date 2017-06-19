@@ -1,0 +1,214 @@
+AA,Control Rod Drive System
+AB,Reactor Coolant System (PWR)
+AC,Reactor Core System
+AD,Reactor Recirculation System (BWR)
+BA,Auxiliary/Emergency Feedwater System (PWR)
+BB,Containment Combustible Gas Control System
+BC,Containment Ice Condenser System (PWR)
+BD,Containment Leakage Control System
+BE,Containment Spray System (PWR)
+BF,Containment Vacuum Relief System
+BG,High-Pressure Core Spray System (BWR)
+BH,Emergency/Standby Gas Treatment System
+BI,Essential Service Water System
+BJ,High-Pressure Coolant Injection System (BWR)
+BK,Containment Fan Cooling System (PWR)
+BL,Isolation Condenser System (BWR)
+BM,Low Pressure Core Spray System (BWR)
+BN,Reactor Core Isolation Cooling System (BWR)
+BO,Residual Heat Removal/Low Pressure Coolant Injection System (BWR)
+BP,Residual Heat Removal/Low Pressure Safety Injection System (PWR)
+BQ,High Pressure Safety Injection System (PWR)
+BR,Standby Liquid Control System (BWR)
+BS,Ultimate Heat Sink System
+BT,Suppression Pool Makeup System (BWR)
+CA,Boron Recycle System (PWR)
+CB,Chemical and Volume Control/Makeup and Purification System (PWR)
+CC,Closed/Component Cooling Water System
+CD,Control Rod Drive Cooling System (PWR)
+CE,Reactor Water Cleanup System (BWR)
+CF,Reactor Services System
+CG,Suppression Pool Purification System (BWR)
+DA,Fuel Pool Cooling and Purification System
+DB,Nuclear Fuel Services System
+DC,Diesel Fuel Oil System
+DE,"Fuel Oil Receiving Storage, and Transfer System"
+DF,Nuclear Fuel Transfer System
+EA,Medium-Voltage Power System (601V through 35 kV)
+EB,Medium-Voltage Power System-Class 1E
+EC,Low-Voltage Power System (600V and less)
+ED,Low-Voltage Power System-Class 1E
+EE,Instrument and Uninterruptible Power System
+EF,Instrument and Uninterruptible Power System-Class 1E
+EI,DC Power System
+EJ,DC Power System-Class 1E
+EK,Emergency Onsite Power Supply System
+EL,Main Generator Output Power System
+FA,Cable Raceway System
+FB,Cathodic Protection System
+FC,Grounding and Lightning Protection System
+FD,Heat Tracing System
+FE,Heat Tracing System-Class 1E
+FF,Normal AC Lighting System
+FG,Standby AC Lighting System
+FH,Emergency DC Lighting System
+FI,Communications System
+FJ,Station Generation Telemetering System
+FK,Switchyard System
+IA,Security System
+IB,Annunciator System
+IC,Fire Detection System
+ID,Computer System
+IG,Incore/Excore Monitoring System
+IH,Core Vibration Monitoring System
+II,Loose Parts Monitoring System
+IJ,Leak Monitoring System
+IK,Containment Environmental Monitoring System
+IL,Radiation Monitoring System
+IM,Temperature Monitoring System
+IN,Seismic Monitoring System
+IO,Performance Monitoring System
+IP,Pest Accident Monitoring System
+IQ,Sequence of Events Monitoring System
+IR,Television System
+IS,Environmental/Meteorological Monitoring System (Ex PLT)
+IT,Main Turbine Instrumentation System
+IU,Display Control System
+IV,Vibration Monitoring System
+JA,Integrated Control System
+JB,Feedwater/Steam Generator Water Level Control System
+JC,Plant Protection System
+JD,Reactor Power Control System
+JE,Engineered Safety Features Actuation System
+JG,Solid State Control System/Auxiliary Logic Control System
+JI,Turbine Steam Bypass Control System
+JJ,Turbine Supervisory Control System
+JK,Feedwater Pump Turbine Instrumentation and Control System
+JL,Panels System
+JM,Containment Isolation Control System
+KA,Condensate Storage and Transfer System
+KB,Turbine Building Closed Cooling Water System
+KC,Demineralized Water Storage and Transfer System
+KD,Condensate and Feedwater Chemistry Control System
+KE,Heat Rejection System
+KF,Heat Rejection Chemical Treatment System
+KG,Nonessential Service Water System
+KH,Water Filtration System
+KI,Raw Water Makeup System
+KJ,Makeup Demineralizer System
+KK,Potable Water Distribution System
+KL,Removable Chemical Cleaning System
+KM,Chilled Water System
+KN,Sampling and Water Quality System
+KO,Gland Seal Water Supply System
+KP,Fire Protection System (Water)
+KQ,Fire Protection System (Chemical)
+KR,Fire Protection System (Passive)
+LA,Diesel Lube Oil System
+LB,Diesel Cooling Water System
+LC,Diesel Generator Starting Air System
+LD,Instrument Air Supply System
+LE,Essential Air System
+LF,Service Air System
+LG,Welding Gas System
+LH,Breathing Air System
+LJ,Hydrogen Supply System
+LK,Nitrogen Supply System
+LL,Lube Oil System
+LM,Lube Oil Storage and Transfer System
+LN,Insulating Oil System
+LP,Laboratory Gas System
+LQ,Laboratory Equipment System
+LR,Material and Equipment Handling System
+LS,Plant Shop System
+LT,Record Storage System
+LU,Yard Handling and Maintenance System
+LV,Plant Hot Water System
+LW,Carbon Dioxide (CO2) Supply System
+MA,Administration Building
+MB,Industrial/Sanitary Waste Treatment Building
+MC,Maintenance and Warehouse Building
+MD,Makeup Water Intake Structure
+MF,Service Building
+MG,Wastewater Outfall Structure
+MH,Water Treatment Building
+MJ,Visitors Center
+MK,Essential Service Water Pump Building
+NA,Control Building/Control Complex
+NB,Emergency Onsite Power Supply Building
+NC,Emergency Operations Facility (Offsite)
+ND,Fuel Building
+NE,Radwaste Building
+NF,Auxiliary Building
+NG,Reactor Building (BWR)
+NH,Reactor Containment Building
+NM,Turbine Building
+NN,Circulating Water Structures
+SA,Auxiliary Steam System
+SB,Main/Reheat Steam System
+SD,Condensate System
+SE,Steam Extraction System
+SF,Condensate Demineralizer System
+SG,Condenser System
+SH,Condenser Vacuum System
+SI,Condenser Tube Cleaning System
+SJ,Feedwater System
+SK,Feedwater Pump Injection and Miscellaneous System
+SL,Feedwater Pump Turbine Lube Oil System
+SM,LP Heater Drains and Vents System
+SN,HP Heater and MSR Drains and Vents System
+TA,Main Turbine System
+TB,Main Generator System
+TC,Turbine Steam Seal System
+TD,Turbine Lube Oil System
+TE,Miscellaneous Turbine Vents System
+TF,Turbine Drains and Miscellaneous Piping System
+TG,Main Turbine Control Fluid System
+TH,Main Generator Gas Purge System
+TI,Main Generator Seal Oil System
+TJ,Main Generator Stator Cooling System
+TK,Main Generater Hydrogen Cooling System
+TL,Main Generator Excitation System
+UA,Pumping Station Environmental Control System
+UB,Water Treatment Building Environmental Control System
+UC,Service Building Environmental Control System
+UD,Administration Building Environmental Control System
+UE,Security Building Environmental Control System
+UF,Technical Support Center Environmental Control System
+UG,Emergency Operations Facility Environmental Control System
+UH,Visitors Center Environmental Control System
+VA,Reactor Building Environmental Control System
+VB,Drywell Environmental Control System (BWR)
+VC,Shield Annulus Return and Exhaust System
+VE,Access Corridors Environmental Control System
+VF,Auxiliary Building Environmental Control System
+VG,Fuel Building Environmental Control System
+VH,Radwaste Building Environmental Control System
+VI,Control Building/Control Complex Environmental Control System
+VJ,Emergency Onsite Power Supply Building Environmental Control System
+VK,Turbine Building Environmental Control System
+VL,Plant Exhaust System
+WA,Cask Decontamination System
+WB,Solid Waste Management System
+WD,Liquid Waste Management System
+WE,Gaseous Waste Management System (PWR)
+WF,Offgas System (BWR)
+WG,Sanitary Waste Processing System
+WH,Wastewater Disposal System
+WI,Steam Generator Blowdown System (PWR)
+WJ,Sludge Waste Dewatering System
+WK,Equipment and Floor Drain System
+XB,Chemical and Volume Control/Makeup and Purification System (PWR)
+XD,Gas Treatment System
+XG,Grid
+XH,Offsite Power
+XJ,Gas Compressor
+XP,Dry Cask Storage
+XQ,Safety Injection System
+XT,No Industry Std. Name/Other
+XV,Miscellaneous Area Environmental Control System
+XY,Miscellaneous System Leaks
+XF,"Station Blackout Diesel"
+XZ,"Station Blackout Diesel"
+XO,"Station Blackout Diesel"
+None,None

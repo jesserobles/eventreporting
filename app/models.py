@@ -221,7 +221,7 @@ class Facility(db.Model):
 
     @staticmethod
     def insert_facilities():
-        with open('dockets', 'r') as file:
+        with open('data/dockets', 'r') as file:
             reader = csv.reader(file)
             for r in reader:
                 docket, name, ftype = r
@@ -242,7 +242,7 @@ class CFR(db.Model):
 
     @staticmethod
     def insert_cfrs():
-        with open('cfrs', 'r') as file:
+        with open('data/cfrs', 'r') as file:
             reader = csv.reader(file)
             codes = [line[0].strip() for line in reader]
             # codes = [line.strip() for line in file]
@@ -277,7 +277,7 @@ class EIISComponentType(db.Model):
 
     @staticmethod
     def insert_eiiscomponenttypes():
-        with open('eiis', 'r') as file:
+        with open('data/eiis', 'r') as file:
             reader = csv.reader(file)
             for row in reader:
                 code, name = row
@@ -300,7 +300,7 @@ class System(db.Model):
 
     @staticmethod
     def insert_systems():
-        with open('systems', 'r') as file:
+        with open('data/systems', 'r') as file:
             reader = csv.reader(file)
             for row in reader:
                 code, name = row
@@ -327,7 +327,7 @@ class Component(db.Model):
 
     @staticmethod
     def insert_components():
-        df = pd.read_csv('domesticdevices', names=['system_id', 'eiiscomponenttype_id', 'manufacturer_id', 'inpo_device_id', 'facility_id'], dtype={'facility_id': str})
+        df = pd.read_csv('data/domesticdevices', names=['system_id', 'eiiscomponenttype_id', 'manufacturer_id', 'inpo_device_id', 'facility_id'], dtype={'facility_id': str})
         df.index = pd.np.arange(1, len(df) + 1)
         systems = {sys.eiis_code: sys.id for sys in System.query.all()}
         manufacturers = {man.name: man.id for man in Manufacturer.query.all()}
@@ -355,7 +355,7 @@ class Manufacturer(db.Model):
 
     @staticmethod
     def insert_manufacturers():
-        df = pd.read_csv('domesticdevices', names=['system_id', 'eiiscomponenttype_id', 'manufacturer',
+        df = pd.read_csv('data/domesticdevices', names=['system_id', 'eiiscomponenttype_id', 'manufacturer',
                                                    'inpo_device_id', 'facility_id'])
         df['manufacturer'] = df['manufacturer'].fillna('Other not listed')
         names = df['manufacturer'].drop_duplicates().apply(lambda s: 'Other not listed' if not s.strip() else s.strip())
@@ -376,7 +376,7 @@ class ComponentCause(db.Model):
 
     @staticmethod
     def insert_componentcauses():
-        with open('componentcauses') as file:
+        with open('data/componentcauses') as file:
             reader = csv.reader(file)
             for row in reader:
                 code, causename, description = row

@@ -28,5 +28,25 @@ def test():
     tests = unittest.TestLoader().discover('tests')
     unittest.TextTestRunner(verbosity=2).run(tests)
 
+
+@manager.command
+def deploy():
+    """Run deployment tasks"""
+    from flask_migrate import upgrade
+    from app.models import Role,  Facility, Component, EIISComponentType, CFR, Manufacturer, System
+
+    upgrade()
+
+    # insert db data
+    Role.insert_roles()
+    CFR.insert_cfrs()
+    Facility.insert_facilities()
+    System.insert_systems()
+    EIISComponentType.insert_eiiscomponenttypes()
+    ComponentCause.insert_componentcauses()
+    Manufacturer.insert_manufacturers()
+    Component.insert_components()
+
+
 if __name__ == '__main__':
     manager.run()
