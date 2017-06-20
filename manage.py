@@ -45,7 +45,7 @@ def deploy():
     EIISComponentType.insert_eiiscomponenttypes()
     ComponentCause.insert_componentcauses()
     Manufacturer.insert_manufacturers()
-    Component.insert_components()
+    #Component.insert_components()
 
 
 if __name__ == '__main__':

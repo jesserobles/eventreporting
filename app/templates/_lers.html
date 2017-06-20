@@ -1,3 +1,4 @@
+{% import "bootstrap/utils.html" as utils%}
 <div class="panel panel-default">
     <div class="panel-heading">Recent Licensee Event Reports</div>
     <!-- LER Table -->
@@ -16,6 +17,14 @@
                 <th scope="row"><a href="{{ url_for('main.ler', lernum=ler.ler_number) }}">{{ ler.ler_number }}</a></th>
                 <td>{{ ler.facilities.first().facility_name }}</td>
                 <td>{{ ler.title }}</td>
+                {% if not ler.approved %}
+                <td class="text-center">{{ utils.form_button(url_for('main.edit_ler', lernum=ler.ler_number), utils.icon('pencil')) }}
+                    {{ utils.form_button(url_for('main.delete_ler', lernum=ler.ler_number), utils.icon('trash')) }}
+                    {{ utils.form_button(url_for('main.create_ler'), utils.icon('plus')) }}
+                </td>
+                {% elif current_user.can(Permission.ADMINISTER) %}
+                <td>{{ utils.form_button(url_for('main.unapprove_ler', lernum=ler.ler_number), utils.icon('pencil')) }}</td>
+                {% endif %}
             </tr>
             {%  endfor %}
         {% else %}

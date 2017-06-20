@@ -65,9 +65,9 @@
 {% if not ler.approved %}
 <div class="ler-footer">
     {% if current_user == ler.author %}
-    <a href="{{ url_for('.edit_ler', lernum=ler.ler_number) }}"><span class="label label-primary">Edit this LER</span></a>
+    <a href="{{ url_for('main.edit_ler', lernum=ler.ler_number) }}"><span class="label label-primary">Edit this LER</span></a>
     {% elif current_user.is_administrator()  %}
-    <a href="{{ url_for('.edit_ler', lernum=ler.ler_number) }}"><span class="label label-danger">Edit this LER [Admin]</span></a>
+    <a href="{{ url_for('main.edit_ler', lernum=ler.ler_number) }}"><span class="label label-danger">Edit this LER [Admin]</span></a>
     {% endif %}
 </div>
 {% endif %}

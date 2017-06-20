@@ -218,6 +218,40 @@ def edit_ler(lernum):
     return render_template('edit_ler.html', form=form, lernum=lernum, has_components=has_components)
 
 
+@main.route('/delete/<string:lernum>', methods=['GET', 'POST'])
+@login_required
+@permission_required(Permission.WRITE)
+def delete_ler(lernum):
+    return 'Delete LER ' + lernum
+
+
+@main.route('/unapprove/<string:lernum>', methods=['GET', 'POST'])
+@login_required
+@permission_required(Permission.ADMINISTER)
+def unapprove_ler(lernum):
+    ler = LER.query.filter_by(ler_number=lernum).first()
+    if ler is None:
+        abort(404)
+    ler.approved = False
+    db.session.add(ler)
+    flash('You have unapproved LER ' + lernum)
+    return redirect(url_for('.index'))
+
+
+@main.route('/approve/<string:lernum>', methods=['GET', 'POST'])
+@login_required
+@permission_required(Permission.APPROVE)
+def approve_ler(lernum):
+    ler = LER.query.filter_by(ler_number=lernum).first()
+    if ler is None:
+        abort(404)
+    if not ler.approved:
+        ler.approved = True
+        db.session.add(ler)
+        flash('You have approved LER ' + lernum)
+    return redirect(url_for('.index'))
+
+
 @main.route('/add-component', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.WRITE)
