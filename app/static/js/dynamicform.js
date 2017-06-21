@@ -1,4 +1,7 @@
-$(".multiple-select").chosen();
+//$(".multiple-select").chosen();
+$(".multiple-select").select2();
+//$('.simple-select').chosen({width: "100%"});
+$('.simple-select').select2({width: "200px"});
 $( "#event_date" ).datepicker();
 $( "#supplement_date" ).datepicker();
 $(function() {
@@ -12,6 +15,8 @@ $(function() {
             if (!table.is(":visible")) {
                 table.show();
             } else {
+//                $('.simple-select').chosen("destroy");
+                $('.simple-select').select2("destroy");
                 var oldrow = target.find("[data-toggle=fieldset-entry]:last");
                 var row = oldrow.clone(true, true);
                 var elem_id = row.find(":input")[0].id;
@@ -29,6 +34,8 @@ $(function() {
                     }
                 });
                 oldrow.after(row);
+//                $('.simple-select').chosen({width: "100%"});
+                $('.simple-select').select2({width: "200px"});
             }
         }); //End add new entry
 
@@ -58,4 +65,10 @@ $(function() {
     });
 });
 
-$('.simple-select').chosen({ width: "210px" });
+$('.btnNext').click(function(){
+    $('.nav-tabs > .active').next('li').find('a').trigger('click');
+});
+
+$('.btnPrevious').click(function(){
+    $('.nav-tabs > .active').prev('li').find('a').trigger('click');
+});

@@ -69,19 +69,19 @@ class CFRSelectForm(FlaskForm):
 
 
 class AddComponentForm(ModelForm):
-    system = SelectField("System", coerce=int)
-    component_type = SelectField("Component Type", coerce=int)
-    manufacturer = SelectField("Manufacturer", coerce=int)#StringField("Manufacturer")
-    cause = SelectField("Failure Cause", coerce=int)
+    system = SelectField("System", coerce=int, validators=[Optional()])
+    component_type = SelectField("Component Type", coerce=int, validators=[Optional()])
+    manufacturer = SelectField("Manufacturer", coerce=int, validators=[Optional()])#StringField("Manufacturer")
+    cause = SelectField("Failure Cause", coerce=int, validators=[Optional()])
     reportable_ices = BooleanField("Reportable to ICES")
-    inpo_device_id = StringField("INPO Device ID")
+    inpo_device_id = StringField("INPO Device ID", validators=[Optional()])
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.system.choices = [(system.id, '{} ({})'.format(system.name, system.eiis_code))
+        self.system.choices = [(system.id, '{} - {}'.format(system.name, system.eiis_code))
                                for system in System.query.order_by(System.name).all()]
         self.system.choices.insert(0, (-1,''))
-        self.component_type.choices = [(componenttype.id, '{} ({})'.format(componenttype.name, componenttype.eiis_code))
+        self.component_type.choices = [(componenttype.id, '{} - {}'.format(componenttype.name, componenttype.eiis_code))
                                        for componenttype in
                                        EIISComponentType.query.order_by(EIISComponentType.name).all()]
         self.component_type.choices.insert(0, (-1, ''))

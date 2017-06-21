@@ -294,8 +294,10 @@ def ler(lernum):
     return render_template('table.html', ler=ler, cfrs=cfrs)
 
 
-@main.route('/test')
-def test():
-    ler = LER.query.all()[-1]
-    cfrs = [cfr.cfr for cfr in ler.cfrs]
-    return render_template('table.html', ler=ler, cfrs=cfrs)
+# @main.route('/test')
+# def test():
+#     form = LERForm()
+#     return render_template('test.html', form=form)
+#     # ler = LER.query.all()[-1]
+#     # cfrs = [cfr.cfr for cfr in ler.cfrs]
+#     # return render_template('table.html', ler=ler, cfrs=cfrs)
