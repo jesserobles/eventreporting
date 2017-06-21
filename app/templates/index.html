@@ -15,7 +15,7 @@
         {{ current_user.username }}
       {% endif %}
     {% else %}
-      to the NRC Events Reporting Application
+      to the Events Reporting Application
     {% endif %}</h1>
 </div>
 {% if current_user.can(Permission.READ) %}
@@ -25,6 +25,10 @@
 <div class="pagination">
         {{ macros.pagination_widget(pagination, '.index') }}
 </div>
+{% else %}
+<p>
+  Please <a href="{{ url_for('auth.login') }}">Log In</a> or <a href="{{ url_for('auth.register') }}">register</a> to use the application.
+</p>
 {% endif %}
 {% endblock %}
 
