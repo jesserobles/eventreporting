@@ -412,8 +412,10 @@
         </div>
     </div>
 </div>
-{% if not ler.approved %}
+
 <div class="ler-footer">
+    <a href="{{ url_for('main.print_ler', lernum=ler.ler_number) }}"><span class="btn btn-success">View as PDF</span></a>
+    {% if not ler.approved %}
     {% if current_user == ler.author %}
     <a href="{{ url_for('main.edit_ler', lernum=ler.ler_number) }}"><span class="btn btn-warning">Edit this LER</span></a>
     {% if current_user.can(Permission.APPROVE) %}<a href="{{ url_for('main.approve_ler', lernum=ler.ler_number) }}"><span class="btn btn-danger">Finalize this LER</span></a>{% endif %}
@@ -421,6 +423,6 @@
     <a href="{{ url_for('main.edit_ler', lernum=ler.ler_number) }}"><span class="btn btn-danger">Edit this LER [Admin]</span></a>
     {% endif %}
 </div>
-{% endif %}
+    {% endif %}
 
 {% endblock %}
