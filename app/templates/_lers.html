@@ -8,6 +8,9 @@
                 <th>LER Number</th>
                 <th>Facility</th>
                 <th>Title</th>
+                <th></th>
+                <th></th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -18,10 +21,9 @@
                 <td>{{ ler.facilities.first().facility_name }}</td>
                 <td>{{ ler.title }}</td>
                 {% if not ler.approved %}
-                <td class="text-center">{{ utils.form_button(url_for('main.edit_ler', lernum=ler.ler_number), utils.icon('pencil')) }}
-                    {{ utils.form_button(url_for('main.delete_ler', lernum=ler.ler_number), utils.icon('trash')) }}
-                    {{ utils.form_button(url_for('main.create_ler'), utils.icon('plus')) }}
-                </td>
+                <td class="text-center" style="padding-left: 0; padding-right: 0;">{{ utils.form_button(url_for('main.edit_ler', lernum=ler.ler_number), utils.icon('pencil')) }}</td>
+                <td class="text-center" style="padding-left: 0; padding-right: 0;">{{ utils.form_button(url_for('main.delete_ler', lernum=ler.ler_number), utils.icon('trash')) }}</td>
+                <td class="text-center" style="padding-left: 0; padding-right: 0;">{{ utils.form_button(url_for('main.create_ler'), utils.icon('plus')) }}</td>
                 {% elif current_user.can(Permission.ADMINISTER) %}
                 <td>{{ utils.form_button(url_for('main.unapprove_ler', lernum=ler.ler_number), utils.icon('pencil')) }}</td>
                 {% endif %}

@@ -1,6 +1,11 @@
-from datetime import datetime
-from flask import render_template, session, redirect, url_for, abort, flash, request, current_app
+from flask import render_template, session, redirect, url_for, abort, flash, request, current_app, Response
 from flask_login import login_required, current_user
+from flask_weasyprint import HTML, render_pdf
+import PyPDF2
+from reportlab.pdfgen import canvas
+from reportlab.lib.units import mm
+from reportlab.lib.pagesizes import letter
+import io
 from . import main
 from .forms import EditProfileForm, EditProfileAdminForm, LERForm, AddComponentForm
 from .. import db
@@ -294,10 +299,49 @@ def ler(lernum):
     return render_template('table.html', ler=ler, cfrs=cfrs)
 
 
-# @main.route('/test')
-# def test():
-#     form = LERForm()
-#     return render_template('test.html', form=form)
-#     # ler = LER.query.all()[-1]
-#     # cfrs = [cfr.cfr for cfr in ler.cfrs]
-#     # return render_template('table.html', ler=ler, cfrs=cfrs)
+@main.route('/ler/<string:lernum>.pdf')
+@login_required
+@permission_required(Permission.READ)
+def print_ler(lernum):
+    ler = LER.query.filter_by(ler_number=lernum).first()
+    if ler is None:
+        abort(404)
+    cfrs = [cfr.cfr for cfr in ler.cfrs]
+    components = ler.components.all()
+
+    # Hack to get page counts and PDF formatting correct
+    page_html = render_template('fullform.html', ler=ler, cfrs=cfrs, components=components)
+    page_count = len(HTML(string=page_html).render().pages)
+    documents = []
+    if len(components) > 2:
+        page_count += 1
+        components_html = render_template('366b_pdf.html', ler=ler, components=components[2:])
+        documents.append(HTML(string=components_html).render())
+    first_page_html = render_template('366_pdf.html', ler=ler, cfrs=cfrs, components=components, page_count=page_count)
+    narrative_html = render_template('366a_pdf.html', ler=ler)
+    documents = [HTML(string=first_page_html).render(), HTML(string=narrative_html).render()] + documents
+    all_pages = [p for doc in documents for p in doc.pages]
+    pdf = documents[0].copy(all_pages).write_pdf()
+    pdf = PyPDF2.PdfFileReader(io.BytesIO(pdf), strict=False)
+    output = PyPDF2.PdfFileWriter()
+    count = pdf.numPages
+    for i in range(count):
+        buffer = io.BytesIO()
+        pagepdf = canvas.Canvas(buffer, pagesize=letter)
+        page = pdf.getPage(i)
+        if i == 0:
+            output.addPage(page)
+            continue
+        text = "Page %s of %s" % (i + 1, count)
+        pagepdf.drawRightString(195 * mm, 9 * mm, text)
+        pagepdf.save()
+        buffer.seek(0)
+        pagepdf = PyPDF2.PdfFileReader(buffer)
+        page.mergePage(pagepdf.getPage(0))
+        output.addPage(page)
+    outputstream = io.BytesIO()
+    output.write(outputstream)
+    outputstream.seek(0)
+    http_response = Response(outputstream, content_type='application/pdf')
+    http_response.headers['Content-Disposition'] = 'filename=LER {}.pdf'.format(ler.ler_number)
+    return http_response

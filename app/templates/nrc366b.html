@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <style>
+        html, body {
+          background-image: url("{{ url_for('static', filename="img/nrc366clean.png") }}");
+          background-repeat: no-repeat;
+
+        }
+      .facility {
+        position: absolute;
+        font-size: 30pt;
+        left: 120px;
+        top: 500px;
+      }
+      @page {
+        size: letter;
+        margin: 0;
+      }
+      @media print {
+        html, body {
+            width: 215.9mm;
+            height: 279.4mm;
+            margin: 0;
+            background-image: url("{{ url_for('static', filename="img/nrc366b.png") }}");
+            background-size: contain;
+
+        }
+        p {
+            font-size: 11pt;
+            text-align: center;
+        }
+        div {
+          text-align: center;
+        }
+        .small{
+            font-size: 8pt;
+        }
+        .smallish {
+            font-size: 9pt;
+        }
+        .facility {
+          position: absolute;
+          left: 40px;
+          top: 185px;
+        }
+        .docket {
+          position: absolute;
+          left: 390px;
+          top: 185px;
+        }
+        .leryear {
+          position: absolute;
+          left: 564px;
+          top: 197px;
+        }
+        .lerseq {
+          position: absolute;
+          left: 647px;
+          top: 197px;
+        }
+        .lerrev {
+          position: absolute;
+          left: 740px;
+          top: 197px;
+        }
+        .col0 {
+          position: absolute;
+          left: 90px;
+        }
+        .col1 {
+          position: absolute;
+          left: 245px;
+        }
+        .col2 {
+          position: absolute;
+          left: 400px;
+        }
+        .col3 {
+          position: absolute;
+          left: 555px;
+        }
+        .col4 {
+          position: absolute;
+          left: 705px;
+        }
+        .row0 {
+          position: absolute;
+          top: 290px;
+        }
+        .row1 {
+          position: absolute;
+          top: 328px;
+        }
+        .row2 {
+          position: absolute;
+          top: 366px;
+        }
+        .row3 {
+          position: absolute;
+          top: 402px;
+        }
+        .row4 {
+          position: absolute;
+          top: 438px;
+        }
+        .row5 {
+          position: absolute;
+          top: 476px;
+        }
+        .row6 {
+          position: absolute;
+          top: 513px;
+        }
+        .row7 {
+          position: absolute;
+          top: 550px;
+        }
+        .row8 {
+          position: absolute;
+          top: 587px;
+        }
+        .row9 {
+          position: absolute;
+          top: 623px;
+        }
+        .row10 {
+          position: absolute;
+          top: 660px;
+        }
+        .row11 {
+          position: absolute;
+          top: 697px;
+        }
+        .row12 {
+          position: absolute;
+          top: 734px;
+        }
+        .row13 {
+          position: absolute;
+          top: 771px;
+        }
+        .row14 {
+          position: absolute;
+          top: 808px;
+        }
+        .row15 {
+          position: absolute;
+          top: 845px;
+        }
+        .row16 {
+          position: absolute;
+          top: 882px;
+        }
+        .row17 {
+          position: absolute;
+          top: 919px;
+        }
+        .row18 {
+          position: absolute;
+          top: 957px;
+        }
+        .pagecount {
+          position: absolute;
+          left: 758px;
+          top: 990px;
+        }
+        .pagenumber {
+          position: absolute;
+          left: 680px;
+          top: 990px;
+        }
+      }
+    </style>
+    <title>LER {{ ler.ler_number }}</title>
+  </head>
+  <body>
+    <div class="facility">
+      <p>Arkansas Nuclear One, Unit 1</p>
+    </div>
+    <div class="docket">
+      <p>05000366</p>
+    </div>
+    <div class="leryear">
+      <p>2016</p>
+    </div>
+    <div class="lerseq">
+      <p>001</p>
+    </div>
+    <div class="lerrev">
+      <p>01</p>
+    </div>
+    <div class="col0 row0">
+      <p>A</p>
+    </div>
+    <div class="pagenumber">
+      <p>1</p>
+    </div>
+    <div class="pagecount">
+      <p>5</p>
+    </div>
+
+  </body>
+</html>

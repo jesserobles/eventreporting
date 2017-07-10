@@ -123,3 +123,11 @@ p, div {
     vertical-align: middle;
     display: inline-block;
 }
+
+
+.btn span.glyphicon {
+	opacity: 0;
+}
+.btn.active span.glyphicon {
+	opacity: 1;
+}

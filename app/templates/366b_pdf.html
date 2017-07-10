@@ -1,0 +1,162 @@
+{% extends "base.html" %}
+{% set active_page = "create-ler" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "bootstrap/utils.html" as utils%}
+{% block title %}LER {{ ler.ler_number }}{% endblock %}
+{% block head %}
+{{ super() }}
+    <style>
+        html, body {
+            font: 11pt/1.25 Arial, serif !important;
+            text-align: justify; padding: 0 !important;
+            -weasy-hyphens: auto;
+        }
+        @page:first {
+          size: letter;
+          margin: 0cm;
+          padding-top: 0px;
+          background: url("{{ url_for('static', filename="img/nrc366b.png") }}");
+          background-repeat: no-repeat;
+          background-size: cover;
+          border: none;
+        }
+        .facility {
+            position: absolute;
+            left: 30px;
+            top: 193px;
+            max-width: 7cm;
+        }
+        .docket {
+            position: absolute;
+            left: 400px;
+            top: 195px;
+        }
+        .leryear {
+            position: absolute;
+            left: 567px;
+            top: 210px;
+        }
+        .lerseq {
+            position: absolute;
+            left: 648px;
+            top: 210px;
+        }
+        .lerrev {
+            position: absolute;
+            left: 738px;
+            top: 210px;
+        }
+        .cause {
+          position: absolute;
+          left: 90px;
+        }
+        .system {
+          position: absolute;
+          left: 245px;
+        }
+        .component {
+          position: absolute;
+          text-align: center;
+          left: 390px;
+          max-width: 3cm;
+        }
+        .manufacturer {
+          position: absolute;
+          left: 555px;
+        }
+        .reportable_ices {
+          position: absolute;
+          left: 705px;
+        }
+        .row0 {
+          position: absolute;
+          top: 305px;
+        }
+        .row1 {
+          position: absolute;
+          top: 341px;
+        }
+        .row2 {
+          position: absolute;
+          top: 379px;
+        }
+        .row3 {
+          position: absolute;
+          top: 417px;
+        }
+        .row4 {
+          position: absolute;
+          top: 452px;
+        }
+        .row5 {
+          position: absolute;
+          top: 490px;
+        }
+        .row6 {
+          position: absolute;
+          top: 525px;
+        }
+        .row7 {
+          position: absolute;
+          top: 564px;
+        }
+        .row8 {
+          position: absolute;
+          top: 600px;
+        }
+        .row9 {
+          position: absolute;
+          top: 637px;
+        }
+        .row10 {
+          position: absolute;
+          top: 675px;
+        }
+        .row11 {
+          position: absolute;
+          top: 710px;
+        }
+        .row12 {
+          position: absolute;
+          top: 747px;
+        }
+        .row13 {
+          position: absolute;
+          top: 785px;
+        }
+        .row14 {
+          position: absolute;
+          top: 822px;
+        }
+        .row15 {
+          position: absolute;
+          top: 860px;
+        }
+        .row16 {
+          position: absolute;
+          top: 895px;
+        }
+        .row17 {
+          position: absolute;
+          top: 933px;
+        }
+        .row18 {
+          position: absolute;
+          top: 970px;
+        }
+    </style>
+{% endblock %}
+{% block page_content %}
+<div class="facility">{{ ler.facilities[0].facility_name }}</div>
+<div class="docket">{{ ler.facilities[0].docket }}</div>
+<div class="leryear">{{ ler.ler_number[3:7] }}</div>
+<div class="lerseq">{{ ler.ler_number[7:-3] }}</div>
+<div class="lerrev">{{ ler.ler_number[-2:] }}</div>
+{% for component in components %}
+<div class="cause row{{ loop.index0 }}">{{ component.componentcause.cause_code }}</div>
+<div class="system row{{ loop.index0 }}">{{ component.component.system.eiis_code }}</div>
+<div class="component row{{ loop.index0 }}">{{ component.component.eiiscomponenttype.eiis_code }}</div>
+<div class="manufacturer row{{ loop.index0 }}">{{ component.component.manufacturer.name[:4] }}</div>
+<div class="reportable_ices row{{ loop.index0 }}">{% if component.reportable_ices %}Y{% else %}N{% endif %}</div>
+{% endfor %}
+{% endblock %}

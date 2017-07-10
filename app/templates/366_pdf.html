@@ -1,0 +1,616 @@
+{% extends "base.html" %}
+{% set active_page = "create-ler" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "bootstrap/utils.html" as utils%}
+{% block title %}LER {{ ler.ler_number }}{% endblock %}
+{% block head %}
+{{ super() }}
+    <style>
+        .frontcover {
+          height: 11in;
+          width: 8.5in;
+        }
+        div.narrativepage {
+          height: 11in;
+          width: 8.5in;
+          page-break-before: auto !important;
+        }
+        div.componentspage {
+          height: 11in;
+          width: 8.5in;
+        }
+        html, body {
+            font: 11pt/1.25 Arial, serif !important;
+            text-align: justify; padding: 0 !important;
+            -weasy-hyphens: auto;
+        }
+        @page{
+          size: letter;
+          margin: 0;
+          background: url("{{ url_for('static', filename="img/nrc366.png") }}");
+          background-size: cover;
+        }
+        .facility {
+          position: absolute;
+          left: 50px;
+          top: 176px;
+        }
+        .lerbody {
+          position: absolute;
+          max-width: 727px;
+          max-height: 750px;
+          left: 45px;
+          top: 240px;
+        }
+        .docket {
+            position: absolute;
+            left: 475px;
+            top: 176px;
+        }
+        .title {
+            position: absolute;
+            left: 45px;
+            top: 231px;
+            padding-right: 50px;
+        }
+        .eventmonth {
+            position: absolute;
+            left: 48px;
+            top: 325px;
+        }
+        .eventday {
+            position: absolute;
+            left: 92px;
+            top: 325px;
+        }
+        .eventyear {
+            position: absolute;
+            left: 130px;
+            top: 325px;
+        }
+        .leryear {
+            position: absolute;
+            left: 180px;
+            top: 325px;
+        }
+        .lerseq {
+            position: absolute;
+            left: 245px;
+            top: 325px;
+        }
+        .lerrev {
+            position: absolute;
+            left: 305px;
+            top: 325px;
+        }
+        .reportmonth {
+            position: absolute;
+            left: 348px;
+            top: 325px;
+        }
+        .reportday {
+            position: absolute;
+            left: 392px;
+            top: 325px;
+        }
+        .reportyear {
+            position: absolute;
+            left: 430px;
+            top: 325px;
+        }
+        .otherfacility1 {
+            position: absolute;
+            left: 477px;
+            top: 300px;
+        }
+        .otherfacility2 {
+            position: absolute;
+            left: 477px;
+            top: 330px;
+        }
+        .otherdocket1 {
+            position: absolute;
+            left: 695px;
+            top: 300px;
+        }
+        .otherdocket2 {
+            position: absolute;
+            left: 695px;
+            top: 330px;
+        }
+        .operatingmode {
+            position: absolute;
+            left: 95px;
+            top: 405px;
+        }
+        .powerlevel {
+            position: absolute;
+            left: 90px;
+            top: 525px;
+        }
+        .check202201b{
+            position: absolute;
+            left: 182px;
+            top: 372px;
+            width: 18px;
+        }
+        .check202201d{
+            position: absolute;
+            left: 182px;
+            top: 397px;
+            width: 18px;
+        }
+        .check202203a1{
+            position: absolute;
+            left: 182px;
+            top: 420px;
+            width: 18px;
+        }
+        .check202203a2i{
+            position: absolute;
+            left: 182px;
+            top: 443px;
+            width: 18px;
+        }
+        .check202203a2ii{
+            position: absolute;
+            left: 182px;
+            top: 466px;
+            width: 18px;
+        }
+        .check202203a2iii{
+            position: absolute;
+            left: 182px;
+            top: 491px;
+            width: 18px;
+        }
+        .check202203a2iv{
+            position: absolute;
+            left: 182px;
+            top: 516px;
+            width: 18px;
+        }
+        .check202203a2v{
+            position: absolute;
+            left: 182px;
+            top: 540px;
+            width: 18px;
+        }
+        .check202203a2vi{
+            position: absolute;
+            left: 182px;
+            top: 564px;
+            width: 18px;
+        }
+        .check202203a3i{
+            position: absolute;
+            left: 334px;
+            top: 372px;
+            width: 18px;
+        }
+        .check202203a3ii{
+            position: absolute;
+            left: 334px;
+            top: 397px;
+            width: 18px;
+        }
+        .check202203a4{
+            position: absolute;
+            left: 334px;
+            top: 420px;
+            width: 18px;
+        }
+        .check5036c1iA{
+            position: absolute;
+            left: 334px;
+            top: 443px;
+            width: 18px;
+        }
+        .check5036c1iiA{
+            position: absolute;
+            left: 334px;
+            top: 466px;
+            width: 18px;
+        }
+        .check5036c2{
+            position: absolute;
+            left: 334px;
+            top: 491px;
+            width: 18px;
+        }
+        .check5046a3ii{
+            position: absolute;
+            left: 334px;
+            top: 516px;
+            width: 18px;
+        }
+        .check5073a2iA{
+            position: absolute;
+            left: 334px;
+            top: 540px;
+            width: 18px;
+        }
+        .check5073a2iB{
+            position: absolute;
+            left: 334px;
+            top: 564px;
+            width: 18px;
+        }
+        .check5073a2iC{
+            position: absolute;
+            left: 334px;
+            top: 587px;
+            width: 18px;
+        }
+        .check5073a2iiA{
+            position: absolute;
+            left: 482px;
+            top: 372px;
+            width: 18px;
+        }
+        .check5073a2iiB{
+            position: absolute;
+            left: 482px;
+            top: 397px;
+            width: 18px;
+        }
+        .check5073a2iii{
+            position: absolute;
+            left: 482px;
+            top: 420px;
+            width: 18px;
+        }
+        .check5073a2ivA{
+            position: absolute;
+            left: 482px;
+            top: 443px;
+            width: 18px;
+        }
+        .check5073a2vA{
+            position: absolute;
+            left: 482px;
+            top: 466px;
+            width: 18px;
+        }
+        .check5073a2vB{
+            position: absolute;
+            left: 482px;
+            top: 491px;
+            width: 18px;
+        }
+        .check5073a2vC{
+            position: absolute;
+            left: 482px;
+            top: 516px;
+            width: 18px;
+        }
+        .check5073a2vD{
+            position: absolute;
+            left: 482px;
+            top: 540px;
+            width: 18px;
+        }
+        .check5073a2vii{
+            position: absolute;
+            left: 482px;
+            top: 564px;
+            width: 18px;
+        }
+        .checkOTHER{
+            position: absolute;
+            left: 482px;
+            top: 587px;
+            width: 18px;
+        }
+        .check5073a2viiiA{
+            position: absolute;
+            left: 631px;
+            top: 372px;
+            width: 18px;
+        }
+        .check5073a2viiiB{
+            position: absolute;
+            left: 631px;
+            top: 397px;
+            width: 18px;
+        }
+        .check5073a2ixA{
+            position: absolute;
+            left: 631px;
+            top: 420px;
+            width: 18px;
+        }
+        .check5073a2x{
+            position: absolute;
+            left: 631px;
+            top: 443px;
+            width: 18px;
+        }
+        .check7371a4{
+            position: absolute;
+            left: 631px;
+            top: 466px;
+            width: 18px;
+        }
+        .check7371a5{
+            position: absolute;
+            left: 631px;
+            top: 491px;
+            width: 18px;
+        }
+        .check7377a1{
+            position: absolute;
+            left: 631px;
+            top: 516px;
+            width: 18px;
+        }
+        .check7377a2i{
+            position: absolute;
+            left: 631px;
+            top: 540px;
+            width: 18px;
+        }
+        .check7377a2ii{
+            position: absolute;
+            left: 631px;
+            top: 564px;
+            width: 18px;
+        }
+        .checkSupplementYes{
+            position: absolute;
+            left: 48px;;
+            top: 753px;
+            width: 18px;
+        }
+        .checkSupplementNo{
+            position: absolute;
+            left: 378px;
+            top: 753px;
+            width: 18px;
+        }
+        .supplementmonth{
+            position: absolute;
+            left: 640px;
+            top: 756px;
+        }
+        .supplementday{
+            position: absolute;
+            left: 688px;
+            top: 756px;
+        }
+        .supplementyear{
+            position: absolute;
+            left: 728px;
+            top: 756px;
+        }
+        .licenseecontact {
+            position: absolute;
+            left: 50px;
+            top: 640px;
+        }
+        .licenseephone {
+            position: absolute;
+            left: 640px;
+            top: 640px;
+        }
+        .cause1 {
+            position: absolute;
+            left: 67px;
+            top: 708px;
+        }
+        .system1 {
+            position: absolute;
+            left: 133px;
+            top: 708px;
+        }
+        .component1 {
+            position: absolute;
+            left: 195px;
+            top: 708px;
+        }
+        .manufacturer1 {
+            position: absolute;
+            left: 270px;
+            top: 708px;
+        }
+        .reportableepix1 {
+            position: absolute;
+            left: 355px;
+            top: 708px;
+        }
+        .cause2 {
+            position: absolute;
+            left: 435px;
+            top: 708px;
+        }
+        .system2 {
+            position: absolute;
+            left: 505px;
+            top: 708px;
+        }
+        .component2 {
+            position: absolute;
+            left: 567px;
+            top: 708px;
+        }
+        .manufacturer2 {
+            position: absolute;
+            left: 640px;
+            top: 708px;
+        }
+        .reportableepix2 {
+            position: absolute;
+            left: 730px;
+            top: 708px;
+        }
+        .abstract {
+            position: absolute;
+            width: 722px;
+            height: 230px;
+            left: 45px;
+            top: 790px;
+        }
+        .firstpagenumber {
+            position: absolute;
+            left: 655px;
+            top: 176px;
+        }
+        .firstpagecount {
+            position: absolute;
+            left: 695px;
+            top: 176px;
+        }
+    </style>
+{% endblock %}
+{% block page_content %}
+<div class="frontcover">
+      <div class="facility">
+        <p>{{ ler.facilities[0].facility_name }}</p>
+      </div>
+      <div class="docket">
+        <p>{{ ler.facilities[0].docket }}</p>
+      </div>
+      <div class="firstpagenumber">1</div>
+      <div class="firstpagecount">{{ page_count }}</div>
+      <div class="title">
+        <p>{{ ler.title }}</p>
+      </div>
+      <div class="eventmonth">
+        <p>{% if ler.event_date.month < 10 %}0{% else %}{% endif %}{{ ler.event_date.month }}</p>
+      </div>
+      <div class="eventday">
+        <p>{% if ler.event_date.day < 10 %}0{% else %}{% endif %}{{ ler.event_date.day }}</p>
+      </div>
+      <div class="eventyear">
+        <p>{{ ler.event_date.year }}</p>
+      </div>
+      <div class="leryear">
+        <p>{{ ler.ler_number[3:7] }}</p>
+      </div>
+      <div class="lerseq">
+        <p>{{ ler.ler_number[7:-3] }}</p>
+      </div>
+      <div class="lerrev">
+        <p>{{ ler.ler_number[-2:] }}</p>
+      </div>
+      <div class="reportmonth">
+        <p>{% if ler.report_date.month < 10 %}0{% else %}{% endif %}{{ ler.report_date.month }}</p>
+      </div>
+      <div class="reportday">
+        <p>{% if ler.report_date.day < 10 %}0{% else %}{% endif %}{{ ler.report_date.day }}</p>
+      </div>
+      <div class="reportyear">
+        <p>{{ ler.report_date.year }}</p>
+      </div>
+      <div class="otherfacility1">
+        <p class="small">{% if ler.facilities.all()|length > 1 %}{{ ler.facilities[1].facility_name }}{% endif %}</p>
+      </div>
+      <div class="otherfacility2">
+        <p class="small">{% if ler.facilities.all()|length == 3 %}{{ ler.facilities[2].facility_name }}{% endif %}</p>
+      </div>
+      <div class="otherdocket1">
+        <p>{% if ler.facilities.all()|length > 1 %}{{ ler.facilities[1].docket }}{% endif %}</p>
+      </div>
+      <div class="otherdocket2">
+        <p>{% if ler.facilities.all()|length == 3 %}{{ ler.facilities[2].docket }}{% endif %}</p>
+      </div>
+      <div class="operatingmode">
+        <p>{{ ler.operating_mode }}</p>
+      </div>
+      <div class="powerlevel">
+        <p>{{ ler.power_level }}</p>
+      </div>
+      <img class="check202201b" src="{% if '20.2201(b)' in cfrs %}{{ url_for('static', filename="img/checked.png") }}{% else %}{{ url_for('static', filename="img/unchecked.png") }}{% endif %}" alt="">
+      <img class="check202201d" src="{% if '20.2201(d)' in cfrs %}{{ url_for('static', filename="img/checked.png") }}{% else %}{{ url_for('static', filename="img/unchecked.png") }}{% endif %}" alt="">
+      <img class="check202203a1" src="{% if '20.2203(a)(1)' in cfrs %}{{ url_for('static', filename="img/checked.png") }}{% else %}{{ url_for('static', filename="img/unchecked.png") }}{% endif %}" alt="">
+      <img class="check202203a2i" src="{% if '20.2203(a)(2)(i)' in cfrs %}{{ url_for('static', filename="img/checked.png") }}{% else %}{{ url_for('static', filename="img/unchecked.png") }}{% endif %}" alt="">
+      <img class="check202203a2ii" src="{% if '20.2203(a)(2)(ii)' in cfrs %}{{ url_for('static', filename="img/checked.png") }}{% else %}{{ url_for('static', filename="img/unchecked.png") }}{% endif %}" alt="">
+      <img class="check202203a2iii" src="{% if '20.2203(a)(2)(iii)' in cfrs %}{{ url_for('static', filename="img/checked.png") }}{% else %}{{ url_for('static', filename="img/unchecked.png") }}{% endif %}" alt="">
+      <img class="check202203a2iv" src="{% if '20.2203(a)(2)(iv)' in cfrs %}{{ url_for('static', filename="img/checked.png") }}{% else %}{{ url_for('static', filename="img/unchecked.png") }}{% endif %}" alt="">
+      <img class="check202203a2v" src="{% if '20.2203(a)(2)(v)' in cfrs %}{{ url_for('static', filename="img/checked.png") }}{% else %}{{ url_for('static', filename="img/unchecked.png") }}{% endif %}" alt="">
+      <img class="check202203a2vi" src="{% if '20.2203(a)(2)(vi)' in cfrs %}{{ url_for('static', filename="img/checked.png") }}{% else %}{{ url_for('static', filename="img/unchecked.png") }}{% endif %}" alt="">
+      <img class="check202203a3i" src="{% if '20.2203(a)(3)(i)' in cfrs %}{{ url_for('static', filename="img/checked.png") }}{% else %}{{ url_for('static', filename="img/unchecked.png") }}{% endif %}" alt="">
+      <img class="check202203a3ii" src="{% if '20.2203(a)(3)(ii)' in cfrs %}{{ url_for('static', filename="img/checked.png") }}{% else %}{{ url_for('static', filename="img/unchecked.png") }}{% endif %}" alt="">
+      <img class="check202203a4" src="{% if '20.2203(a)(4)' in cfrs %}{{ url_for('static', filename="img/checked.png") }}{% else %}{{ url_for('static', filename="img/unchecked.png") }}{% endif %}" alt="">
+      <img class="check5036c1iA" src="{% if '50.36(c)(1)(i)(A)' in cfrs %}{{ url_for('static', filename="img/checked.png") }}{% else %}{{ url_for('static', filename="img/unchecked.png") }}{% endif %}" alt="">
+      <img class="check5036c1iiA" src="{% if '50.36(c)(1)(ii)(A)' in cfrs %}{{ url_for('static', filename="img/checked.png") }}{% else %}{{ url_for('static', filename="img/unchecked.png") }}{% endif %}" alt="">
+      <img class="check5036c2" src="{% if '50.36(c)(2)' in cfrs %}{{ url_for('static', filename="img/checked.png") }}{% else %}{{ url_for('static', filename="img/unchecked.png") }}{% endif %}" alt="">
+      <img class="check5046a3ii" src="{% if '50.46(a)(3)(ii)' in cfrs %}{{ url_for('static', filename="img/checked.png") }}{% else %}{{ url_for('static', filename="img/unchecked.png") }}{% endif %}" alt="">
+      <img class="check5073a2iA" src="{% if '50.73(a)(2)(i)(A)' in cfrs %}{{ url_for('static', filename="img/checked.png") }}{% else %}{{ url_for('static', filename="img/unchecked.png") }}{% endif %}" alt="">
+      <img class="check5073a2iB" src="{% if '50.73(a)(2)(i)(B)' in cfrs %}{{ url_for('static', filename="img/checked.png") }}{% else %}{{ url_for('static', filename="img/unchecked.png") }}{% endif %}" alt="">
+      <img class="check5073a2iC" src="{% if '50.73(a)(2)(i)(C)' in cfrs %}{{ url_for('static', filename="img/checked.png") }}{% else %}{{ url_for('static', filename="img/unchecked.png") }}{% endif %}" alt="">
+      <img class="check5073a2iiA" src="{% if '50.73(a)(2)(ii)(A)' in cfrs %}{{ url_for('static', filename="img/checked.png") }}{% else %}{{ url_for('static', filename="img/unchecked.png") }}{% endif %}" alt="">
+      <img class="check5073a2iiB" src="{% if '50.73(a)(2)(ii)(B)' in cfrs %}{{ url_for('static', filename="img/checked.png") }}{% else %}{{ url_for('static', filename="img/unchecked.png") }}{% endif %}" alt="">
+      <img class="check5073a2iii" src="{% if '50.73(a)(2)(iii)' in cfrs %}{{ url_for('static', filename="img/checked.png") }}{% else %}{{ url_for('static', filename="img/unchecked.png") }}{% endif %}" alt="">
+      <img class="check5073a2ivA" src="{% if '50.73(a)(2)(iv)(A)' in cfrs %}{{ url_for('static', filename="img/checked.png") }}{% else %}{{ url_for('static', filename="img/unchecked.png") }}{% endif %}" alt="">
+      <img class="check5073a2vA" src="{% if '50.73(a)(2)(v)(A)' in cfrs %}{{ url_for('static', filename="img/checked.png") }}{% else %}{{ url_for('static', filename="img/unchecked.png") }}{% endif %}" alt="">
+      <img class="check5073a2vB" src="{% if '50.73(a)(2)(v)(B)' in cfrs %}{{ url_for('static', filename="img/checked.png") }}{% else %}{{ url_for('static', filename="img/unchecked.png") }}{% endif %}" alt="">
+      <img class="check5073a2vC" src="{% if '50.73(a)(2)(v)(C)' in cfrs %}{{ url_for('static', filename="img/checked.png") }}{% else %}{{ url_for('static', filename="img/unchecked.png") }}{% endif %}" alt="">
+      <img class="check5073a2vD" src="{% if '50.73(a)(2)(v)(D)' in cfrs %}{{ url_for('static', filename="img/checked.png") }}{% else %}{{ url_for('static', filename="img/unchecked.png") }}{% endif %}" alt="">
+      <img class="check5073a2vii" src="{% if '50.73(a)(2)(vii)' in cfrs %}{{ url_for('static', filename="img/checked.png") }}{% else %}{{ url_for('static', filename="img/unchecked.png") }}{% endif %}" alt="">
+      <img class="checkOTHER" src="{% if 'OTHER' in cfrs %}{{ url_for('static', filename="img/checked.png") }}{% else %}{{ url_for('static', filename="img/unchecked.png") }}{% endif %}" alt="">
+      <img class="check5073a2viiiA" src="{% if '50.73(a)(2)(viii)(A)' in cfrs %}{{ url_for('static', filename="img/checked.png") }}{% else %}{{ url_for('static', filename="img/unchecked.png") }}{% endif %}" alt="">
+      <img class="check5073a2viiiB" src="{% if '50.73(a)(2)(viii)(B)' in cfrs %}{{ url_for('static', filename="img/checked.png") }}{% else %}{{ url_for('static', filename="img/unchecked.png") }}{% endif %}" alt="">
+      <img class="check5073a2ixA" src="{% if '50.73(a)(2)(ix)(A)' in cfrs %}{{ url_for('static', filename="img/checked.png") }}{% else %}{{ url_for('static', filename="img/unchecked.png") }}{% endif %}" alt="">
+      <img class="check5073a2x" src="{% if '50.73(a)(2)(x)' in cfrs %}{{ url_for('static', filename="img/checked.png") }}{% else %}{{ url_for('static', filename="img/unchecked.png") }}{% endif %}" alt="">
+      <img class="check7371a4" src="{% if '73.71(a)(4)' in cfrs %}{{ url_for('static', filename="img/checked.png") }}{% else %}{{ url_for('static', filename="img/unchecked.png") }}{% endif %}" alt="">
+      <img class="check7371a5" src="{% if '73.71(a)(5)' in cfrs %}{{ url_for('static', filename="img/checked.png") }}{% else %}{{ url_for('static', filename="img/unchecked.png") }}{% endif %}" alt="">
+      <img class="check7377a1" src="{% if '73.77(a)(1)' in cfrs %}{{ url_for('static', filename="img/checked.png") }}{% else %}{{ url_for('static', filename="img/unchecked.png") }}{% endif %}" alt="">
+      <img class="check7377a2i" src="{% if '73.77(a)(2)(i)' in cfrs %}{{ url_for('static', filename="img/checked.png") }}{% else %}{{ url_for('static', filename="img/unchecked.png") }}{% endif %}" alt="">
+      <img class="check7377a2ii" src="{% if '73.77(a)(2)(ii)' in cfrs %}{{ url_for('static', filename="img/checked.png") }}{% else %}{{ url_for('static', filename="img/unchecked.png") }}{% endif %}" alt="">
+      <img class="checkSupplementYes" src="{% if ler.supplement_expected %}{{ url_for('static', filename="img/checked.png") }}{% else %}{{ url_for('static', filename="img/unchecked.png") }}{% endif %}" alt="">
+      <img class="checkSupplementNo" src="{% if not ler.supplement_expected %}{{ url_for('static', filename="img/checked.png") }}{% else %}{{ url_for('static', filename="img/unchecked.png") }}{% endif %}" alt="">
+      <div class="supplementmonth">
+        <p>{% if ler.supplement_date %}{% if ler.supplement_date.month < 10 %}0{% else %}{% endif %}{{ ler.supplement_date.month }}{% endif %}</p>
+      </div>
+      <div class="supplementday">
+        <p>{% if ler.supplement_date %}{% if ler.supplement_date.day < 10 %}0{% else %}{% endif %}{{ ler.supplement_date.day }}{% endif %}</p>
+      </div>
+      <div class="supplementyear">
+        <p>{% if ler.supplement_date %}{{ ler.supplement_date.year }}{% endif %}</p>
+      </div>
+      <div class="licenseecontact">
+        <p>{{ ler.author.first_name + ' ' + ler.author.last_name }}</p>
+      </div>
+      <div class="licenseephone">
+        <p>301-415-XXXX</p>
+      </div>
+      {% if components|length > 0 %}
+      <div class="cause1">
+        <p>{{ components[0].componentcause.cause_code }}</p>
+      </div>
+      <div class="system1">
+        <p>{{ components[0].component.system.eiis_code }}</p>
+      </div>
+      <div class="component1">
+        <p>{{ components[0].component.eiiscomponenttype.eiis_code }}</p>
+      </div>
+      <div class="manufacturer1">
+        <p>{{ components[0].component.manufacturer.name[:2] }}</p>
+      </div>
+      <div class="reportableepix1">
+        <p>{% if components[0].reportable_ices %}Y{% else %}N{% endif %}</p>
+      </div>
+      {% endif %}
+      {% if components|length > 1 %}
+      <div class="cause2">
+        <p>{{ components[1].componentcause.cause_code }}</p>
+      </div>
+      <div class="system2">
+        <p>{{ components[1].component.system.eiis_code }}</p>
+      </div>
+      <div class="component2">
+        <p>{{ components[1].component.eiiscomponenttype.eiis_code }}</p>
+      </div>
+      <div class="manufacturer2">
+        <p>{{ components[1].component.manufacturer.name[:2] }}</p>
+      </div>
+      <div class="reportableepix2">
+        <p>{% if components[1].reportable_ices %}Y{% else %}N{% endif %}</p>
+      </div>
+      {% endif %}
+      <div class="abstract">
+          <p class="small">{{ ler.abstract }}</p>
+      </div>
+</div>
+{% endblock %}

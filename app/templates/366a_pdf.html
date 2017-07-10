@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% set active_page = "create-ler" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "bootstrap/utils.html" as utils%}
+{% block title %}LER {{ ler.ler_number }}{% endblock %}
+{% block head %}
+{{ super() }}
+<link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.ico') }}" type="image/x-icon">
+<link rel="icon" href="{{ url_for('static', filename='img/favicon.ico') }}" type="image/x-icon">
+    <style>
+        @page {
+            counter-increment: page;
+            size: letter;
+            background: url("{{ url_for('static', filename="img/nrc366a_top.png") }}");
+            background-repeat: no-repeat;
+            background-position: top center;
+            background-size: contain;
+            margin-top: 0.5cm;
+            margin-bottom: 1.5cm;
+            margin-left: 1cm;
+            margin-right: 1cm;
+            padding-top: 5.5cm;
+            border: 3pt solid black;
+        }
+
+        html, body {
+            font: 11pt/1.25 Arial, serif !important;
+            text-align: justify; padding: 0 !important;
+            -weasy-hyphens: auto;
+        }
+        .facility {
+            position: fixed;
+            left: 0.1cm;
+            top: -1.4cm;
+            max-width: 7cm;
+        }
+        .docket {
+            position: fixed;
+            left: 9.5cm;
+            top: -1.3cm;
+        }
+        .leryear {
+            position: fixed;
+            left: 13.955cm;
+            top: -0.955cm;
+        }
+        .lerseq{
+            position: fixed;
+            left: 16.0cm;
+            top: -0.955cm;
+        }
+        .lerrev {
+            position: fixed;
+            left: 18.3cm;
+            top: -0.955cm;
+        }
+        td {
+            border: 1px solid black;
+            padding: 5px;
+        }
+        th {
+            border: 1px solid black;
+            text-align: center;
+        }
+    </style>
+
+{% endblock %}
+{% block page_content %}
+<div class="facility">{{ ler.facilities[0].facility_name }}</div>
+<div class="docket">{{ ler.facilities[0].docket }}</div>
+<div class="leryear">{{ ler.ler_number[3:7] }}</div>
+<div class="lerseq">{{ ler.ler_number[7:-3] }}</div>
+<div class="lerrev">{{ ler.ler_number[-2:] }}</div>
+<div>{{ ler.body_html|safe }}</div>
+{% endblock %}
+

@@ -26,5 +26,6 @@ python-editor==1.0.3
 six==1.10.0
 WTForms-Alchemy==0.16.2
 Flask-Admin==1.5.0
+Flask-WeasyPrint==0.5
 pdfjinja==1.0.0
 pandas==0.20.2
