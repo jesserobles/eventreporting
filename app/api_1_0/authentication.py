@@ -7,11 +7,18 @@ from .errors import unauthorized, forbidden
 auth = HTTPBasicAuth()
 
 
+@api.before_request
+@auth.login_required
+def before_request():
+    if not g.current_user.is_anonymous and \
+            not g.current_user.confirmed:
+        return forbidden('Unconfirmed account')
+
 @auth.verify_password
 def verify_password(email_or_token, password):
     if email_or_token == '':
         g.current_user = AnonymousUser()
-        return True
+        return False
     if password == '':
         g.current_user = User.verify_auth_token(email_or_token)
         g.token_used = True
@@ -27,14 +34,6 @@ def verify_password(email_or_token, password):
 @auth.error_handler
 def auth_error():
     return unauthorized('Invalid credentials')
-
-
-@api.before_request
-@auth.login_required
-def before_request():
-    if not g.current_user.is_anonymous and \
-            not g.current_user.confirmed:
-        return forbidden('Unconfirmed account')
 
 
 @api.route('/token')
