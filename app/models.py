@@ -3,7 +3,7 @@ import csv
 import hashlib
 import pandas as pd
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask import current_app, request
+from flask import current_app, request, url_for
 from flask_login import UserMixin, AnonymousUserMixin
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from markdown import markdown
@@ -100,6 +100,19 @@ class User(UserMixin, db.Model):
     def generate_confirmation_token(self, expiration=60*60*48):
         s = Serializer(current_app.config['SECRET_KEY'], expiration)
         return s.dumps({'confirm': self.id})
+
+    def generate_auth_token(self, expiration):
+        s = Serializer(current_app.config['SECRET_KEY'], expires_in=expiration)
+        return s.dumps({'id': self.id}).decode('ascii')
+
+    @staticmethod
+    def verify_auth_token(token):
+        s = Serializer(current_app.config['SECRET_KEY'])
+        try:
+            data = s.loads(token)
+        except:
+            return None
+        return User.query.get(data['id'])
 
     def confirm(self, token):
         s = Serializer(current_app.config['SECRET_KEY'])
@@ -495,6 +508,34 @@ class LER(db.Model):
                 ler.components.append(component)
             db.session.add(ler)
             db.session.commit()
+
+    def to_json(self):
+        json_ler = {
+            'url': url_for('api.get_ler', lernum=self.ler_number, _external=True),
+            'lernumber': self.ler_number,
+            'title': self.title,
+            'eventdate': self.event_date.strftime('%m/%d/%Y'),
+            'reportdate': self.report_date.strftime('%m/%d/%Y'),
+            'facilities': {f.facility_name: f.docket for f in self.facilities.all()},
+            'operatingmode': self.operating_mode,
+            'powerlevel': self.power_level,
+            'cfrs': [c.cfr for c in self.cfrs.all()],
+            'author': self.author.first_name + ' ' + self.author.last_name,
+            'supplementexpected': self.supplement_expected,
+            'abstract': self.abstract,
+            'body': self.body,
+            'body_html': self.body_html,
+        }
+        components = self.components.all()
+        if components != []:
+            json_ler['components'] = [{'componenttype': c.component.eiiscomponenttype.name,
+                                       'system': c.component.system.name,
+                                       'manufacturer': c.component.manufacturer.name,
+                                       'reportabletoepix': c.reportable_ices,
+                                       'cause': c.componentcause.cause_name} for c in components]
+        if self.supplement_expected:
+            json_ler['supplementdate'] = self.supplement_date.strftime('%m/%d/%Y')
+        return json_ler
 
     def __repr__(self):
         return '<LER %r>' % self.ler_number
